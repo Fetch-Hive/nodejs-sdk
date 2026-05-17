@@ -90,7 +90,7 @@ Or set the `FETCH_HIVE_API_KEY` environment variable and access it via `process.
 
 ## Version
 
-0.1.6
+0.1.8
 
 ## License
 
