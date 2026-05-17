@@ -14,11 +14,11 @@ for await (const chunk of client.invokeAgentStream({
   agent: 'my-agent',
   message: 'Tell me a short story',
 })) {
-  if (chunk.type === 'delta') {
-    process.stdout.write(chunk.content ?? '');
-  } else if (chunk.type === 'tool_start') {
-    process.stdout.write(`\n[Calling tool: ${chunk.tool_name}]\n`);
-  } else if (chunk.type === 'done') {
+  if (chunk.type === 'response') {
+    process.stdout.write(chunk.response ?? '');
+  } else if (chunk.type === 'tool') {
+    process.stdout.write(`\n[Calling tool: ${chunk.tool}]\n`);
+  } else if (chunk.type === 'usage') {
     process.stdout.write('\n\n[Done]');
     if (chunk.usage) console.log('\nUsage:', chunk.usage);
   }

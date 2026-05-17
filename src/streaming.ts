@@ -10,32 +10,57 @@
  *     body: JSON.stringify({ agent: 'my-agent', message: 'Hello', streaming: true }),
  *   });
  *   for await (const chunk of parseSse<SseChunk>(res)) {
- *     if (chunk.type === 'delta') process.stdout.write(chunk.content ?? '');
+ *     if (chunk.type === 'response') process.stdout.write(chunk.response ?? '');
+ *     if (chunk.type === 'usage')    console.log('\nUsage:', chunk.usage);
  *   }
  */
 
 export interface SseChunk {
-  /** Event type: "delta" | "done" | "tool_start" | "tool_end" | "error" */
+  /**
+   * Event type discriminator. Known values:
+   * - "reasoning" — thinking/reasoning chunk (prompt and agent streams)
+   * - "response"  — text output chunk (prompt and agent streams)
+   * - "tool"      — tool invocation and result (agent stream only)
+   * - "usage"     — final token usage; signals end of meaningful stream content
+   * - "summary"   — conversation history summarization (agent stream only)
+   * - "error"     — server-side streaming error
+   */
   type: string;
-  /** Text delta (present for type "delta") */
-  content?: string;
-  /** Present on the final "done" event */
+  /** Text content of the chunk. Present for "response" and "reasoning" events. */
+  response?: string;
+  /** Unique request identifier. Present on most events; always present on "usage". */
   request_id?: string;
-  /** Present on the final "done" event */
+  /** Model identifier. Present on "response" and "reasoning" events (prompt stream). */
   model?: string;
-  /** Tool name (present for "tool_start" / "tool_end") */
-  tool_name?: string;
-  /** Serialised JSON tool input (present for "tool_start") */
-  tool_input?: string;
-  /** Serialised JSON tool result (present for "tool_end") */
+  /**
+   * Per-chunk boolean flag on "response" and "reasoning" events (agent stream).
+   * Not a terminal event type — use the "usage" event to detect end of stream.
+   */
+  done?: boolean;
+  /** Unique tool invocation identifier. Present for "tool" events. */
+  tool_id?: string;
+  /** Tool name. Present for "tool" events (e.g. "google_search"). */
+  tool?: string;
+  /** Internal tool type identifier. Present for "tool" events. */
+  tool_type?: string;
+  /** Parsed tool input arguments. Present for "tool" events. */
+  tool_input?: Record<string, unknown>;
+  /** Serialised JSON tool result. Present for "tool" events. */
   observation?: string;
-  /** Error message (present for "error" events) */
+  /** Reason the stream ended. Present on "usage" events (e.g. "completed"). */
+  stop_reason?: string;
+  /** Compressed summary of the prior conversation. Present for "summary" events. */
+  summary_text?: string;
+  /** Token count before summarization. Present for "summary" events. */
+  original_token_count?: number;
+  /** Model context window size. Present for "summary" events. */
+  context_limit?: number;
+  /** LLM provider used for summarization. Present for "summary" events. */
+  provider?: string;
+  /** Error message. Present for "error" events. */
   error?: string;
-  usage?: {
-    prompt_tokens?: number;
-    completion_tokens?: number;
-    total_tokens?: number;
-  };
+  /** Token usage breakdown. Present on "usage" events. */
+  usage?: Record<string, unknown>;
 }
 
 /**

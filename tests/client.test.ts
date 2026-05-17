@@ -263,7 +263,7 @@ describe('AG: invokeAgent', () => {
 
 describe('S: Streaming endpoints', () => {
   test('S1 — invokePromptStream sends streaming:true and yields events', async () => {
-    const sseText = 'data: {"type":"delta","content":"Hello"}\n\ndata: [DONE]\n\n';
+    const sseText = 'data: {"type":"response","response":"Hello"}\n\ndata: [DONE]\n\n';
     const mockFetch = mockFetchStream(makeSseResponse(sseText));
     global.fetch = mockFetch as unknown as typeof fetch;
 
@@ -277,11 +277,11 @@ describe('S: Streaming endpoints', () => {
     const body = JSON.parse(opts.body as string);
     expect(body.streaming).toBe(true);
     expect(chunks).toHaveLength(1);
-    expect((chunks[0] as { content: string }).content).toBe('Hello');
+    expect((chunks[0] as { response: string }).response).toBe('Hello');
   });
 
   test('S2 — invokeAgentStream sends streaming:true and yields events', async () => {
-    const sseText = 'data: {"type":"delta","content":"Hi"}\n\ndata: [DONE]\n\n';
+    const sseText = 'data: {"type":"response","response":"Hi"}\n\ndata: [DONE]\n\n';
     const mockFetch = mockFetchStream(makeSseResponse(sseText));
     global.fetch = mockFetch as unknown as typeof fetch;
 
@@ -295,7 +295,7 @@ describe('S: Streaming endpoints', () => {
     const body = JSON.parse(opts.body as string);
     expect(body.streaming).toBe(true);
     expect(chunks).toHaveLength(1);
-    expect((chunks[0] as { content: string }).content).toBe('Hi');
+    expect((chunks[0] as { response: string }).response).toBe('Hi');
   });
 });
 

@@ -41,7 +41,8 @@ for await (const chunk of client.invokePromptStream({
   deployment: 'my-prompt',
   inputs: { name: 'Alice' },
 })) {
-  if (chunk.type === 'delta') process.stdout.write(chunk.content ?? '');
+  if (chunk.type === 'response') process.stdout.write(chunk.response ?? '');
+  if (chunk.type === 'usage')    console.log('\nUsage:', chunk.usage);
 }
 ```
 
@@ -84,8 +85,9 @@ for await (const chunk of client.invokeAgentStream({
   message: 'What is the weather in London?',
   thread_id: 'session-abc123',   // optional — persist conversation history
 })) {
-  if (chunk.type === 'delta') process.stdout.write(chunk.content ?? '');
-  if (chunk.type === 'tool_start') console.log(`\nCalling tool: ${chunk.tool_name}`);
+  if (chunk.type === 'response') process.stdout.write(chunk.response ?? '');
+  if (chunk.type === 'tool')     console.log(`\nCalling tool: ${chunk.tool}`);
+  if (chunk.type === 'usage')    console.log('\nUsage:', chunk.usage);
 }
 ```
 
@@ -129,7 +131,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.2.3
+0.2.4
 
 ## License
 

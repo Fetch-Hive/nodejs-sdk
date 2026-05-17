@@ -12,7 +12,9 @@
  *
  *   // Hand-written streaming helpers
  *   for await (const chunk of client.invokeAgentStream({ agent: 'my-agent', message: 'Hello' })) {
- *     if (chunk.type === 'delta') process.stdout.write(chunk.content ?? '');
+ *     if (chunk.type === 'response') process.stdout.write(chunk.response ?? '');
+ *     if (chunk.type === 'tool')     console.log(`\nCalling tool: ${chunk.tool}`);
+ *     if (chunk.type === 'usage')    console.log('\nUsage:', chunk.usage);
  *   }
  */
 
