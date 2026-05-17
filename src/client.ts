@@ -24,8 +24,11 @@ import { parseSse, type SseChunk } from './streaming.js';
 
 /** Options accepted by the FetchHive constructor */
 export interface FetchHiveOptions {
-  /** API token from the Fetch Hive dashboard */
-  apiKey: string;
+  /**
+   * API token from the Fetch Hive dashboard.
+   * Defaults to the `FETCH_HIVE_API_KEY` environment variable.
+   */
+  apiKey?: string;
   /** Override the base URL (default: https://api.fetchhive.com/v1) */
   baseURL?: string;
 }
@@ -94,9 +97,10 @@ export class FetchHive {
   // readonly workflows: WorkflowsApi;
   // readonly knowledgeBases: KnowledgeBasesApi;
 
-  constructor(opts: FetchHiveOptions) {
-    if (!opts.apiKey) throw new Error('FetchHive: apiKey is required');
-    this.apiKey = opts.apiKey;
+  constructor(opts: FetchHiveOptions = {}) {
+    const key = opts.apiKey ?? process.env.FETCH_HIVE_API_KEY;
+    if (!key) throw new Error('FetchHive: apiKey is required. Pass it explicitly or set FETCH_HIVE_API_KEY.');
+    this.apiKey = key;
     this.baseURL = (opts.baseURL ?? 'https://api.fetchhive.com/v1').replace(/\/$/, '');
 
     // Uncomment after first codegen run:

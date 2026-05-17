@@ -7,6 +7,7 @@
 Name | Type
 ------------ | -------------
 `error` | string
+`code` | string
 
 ## Example
 
@@ -15,7 +16,8 @@ import type { ErrorResponse } from '@fetch-hive/sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "error": Invalid access.,
+  "error": null,
+  "code": null,
 } satisfies ErrorResponse
 
 console.log(example)

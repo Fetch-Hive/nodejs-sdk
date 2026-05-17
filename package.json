@@ -1,6 +1,6 @@
 {
   "name": "@fetch-hive/sdk",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Official Node.js / TypeScript SDK for the Fetch Hive API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,7 +39,9 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "extensionsToTreatAsEsm": [".ts"],
+    "transform": {
+      "^.+\\.tsx?$": ["ts-jest", { "tsconfig": "tsconfig.test.json" }]
+    },
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     }
