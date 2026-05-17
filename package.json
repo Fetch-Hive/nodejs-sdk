@@ -1,0 +1,47 @@
+{
+  "name": "@fetch-hive/sdk",
+  "version": "0.1.0",
+  "description": "Official Node.js / TypeScript SDK for the Fetch Hive API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "fetchhive",
+    "ai",
+    "agents",
+    "workflows",
+    "sdk"
+  ],
+  "author": "Fetch Hive <hello@fetchhive.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fetch-Hive/nodejs-sdk.git"
+  },
+  "homepage": "https://fetchhive.com",
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [".ts"],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
+  }
+}
