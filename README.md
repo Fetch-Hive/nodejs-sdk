@@ -55,6 +55,27 @@ const run = await client.invokeWorkflow({
 console.log(run.status, run.output);
 ```
 
+## Invoke a workflow (async)
+
+```typescript
+const run = await client.invokeWorkflow({
+  deployment: 'my-workflow',
+  inputs: { customer_id: '42' },
+  async: { enabled: true, callback_url: 'https://example.com/webhook' },
+});
+console.log('Queued:', run.run_id);
+```
+
+## Invoke an agent
+
+```typescript
+const reply = await client.invokeAgent({
+  agent: 'my-agent',
+  message: 'What is the weather in London?',
+});
+console.log(reply.response);
+```
+
 ## Invoke an agent (streaming)
 
 ```typescript
@@ -76,21 +97,39 @@ const result = await client.invokeAgent({
   message: 'Describe this image',
   image_urls: ['https://example.com/photo.jpg'],
 });
+console.log(result.response);
 ```
 
 ## Authentication
 
-All requests require a Bearer token. Pass it to the constructor:
+Pass the API key to the constructor:
 
 ```typescript
 const client = new FetchHive({ apiKey: 'fhk_...' });
 ```
 
-Or set the `FETCH_HIVE_API_KEY` environment variable and access it via `process.env`.
+Or set the environment variable and omit the explicit key:
+
+```bash
+export FETCH_HIVE_API_KEY=fhk_...
+```
+
+## Configuration
+
+| Option | Default | Description |
+|---|---|---|
+| `apiKey` | `process.env.FETCH_HIVE_API_KEY` | Bearer token from the Fetch Hive dashboard |
+| `baseURL` | `https://api.fetchhive.com/v1` | Override the API base URL |
+
+## Links
+
+- [Fetch Hive dashboard](https://app.fetchhive.com)
+- [API documentation](https://docs.fetchhive.com)
+- [GitHub](https://github.com/Fetch-Hive/nodejs-sdk)
 
 ## Version
 
-0.2.2
+0.2.3
 
 ## License
 
