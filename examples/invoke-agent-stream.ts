@@ -13,6 +13,7 @@ console.log('Streaming agent response:\n');
 for await (const chunk of client.invokeAgentStream({
   agent: 'my-agent',
   message: 'Tell me a short story',
+  metadata: {},
 })) {
   if (chunk.type === 'response') {
     process.stdout.write(chunk.response ?? '');

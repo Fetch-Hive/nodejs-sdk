@@ -30,6 +30,7 @@ Get your API key from the [Fetch Hive dashboard](https://app.fetchhive.com).
 const result = await client.invokePrompt({
   deployment: 'my-prompt',
   inputs: { name: 'Alice', topic: 'machine learning' },
+  metadata: {},
 });
 console.log(result.response);
 ```
@@ -52,6 +53,7 @@ for await (const chunk of client.invokePromptStream({
 const run = await client.invokeWorkflow({
   deployment: 'my-workflow',
   inputs: { customer_id: '42' },
+  metadata: {},
 });
 console.log(run.status, run.output);
 ```
@@ -73,9 +75,14 @@ console.log('Queued:', run.run_id);
 const reply = await client.invokeAgent({
   agent: 'my-agent',
   message: 'What is the weather in London?',
+  metadata: {},
 });
 console.log(reply.response);
 ```
+
+## Metadata
+
+Pass optional `metadata` on prompt, workflow, or agent invokes to attach flat audit fields for log display and filtering. Metadata values must be strings, numbers, booleans, or `null`.
 
 ## Invoke an agent (streaming)
 
@@ -131,7 +138,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.2.5
+0.2.6
 
 ## License
 
