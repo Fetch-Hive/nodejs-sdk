@@ -160,13 +160,20 @@ describe('P: invokePrompt', () => {
     global.fetch = mockFetch as unknown as typeof fetch;
 
     const client = new FetchHive({ apiKey: 'k' });
-    await client.invokePrompt({ deployment: 'd', variant: 'v2', inputs: { x: 1 }, user: 'u1' });
+    await client.invokePrompt({
+      deployment: 'd',
+      variant: 'v2',
+      inputs: { x: 1 },
+      user: 'u1',
+      metadata: { customer_id: 'cus_123', trial: false, invoice_count: 12, region: null },
+    });
 
     const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
     const body = JSON.parse(opts.body as string);
     expect(body.variant).toBe('v2');
     expect(body.inputs).toEqual({ x: 1 });
     expect(body.user).toBe('u1');
+    expect(body.metadata).toEqual({ customer_id: 'cus_123', trial: false, invoice_count: 12, region: null });
   });
 });
 
@@ -200,6 +207,21 @@ describe('W: invokeWorkflow', () => {
     const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
     const body = JSON.parse(opts.body as string);
     expect(body.async).toEqual({ enabled: true, callback_url: 'https://example.com/cb' });
+  });
+
+  test('W4 — passes metadata through', async () => {
+    const mockFetch = makeMockFetch({ status: 'completed' });
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.invokeWorkflow({
+      deployment: 'my-wf',
+      metadata: { customer_id: 'cus_123', invoice_count: 12 },
+    });
+
+    const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    const body = JSON.parse(opts.body as string);
+    expect(body.metadata).toEqual({ customer_id: 'cus_123', invoice_count: 12 });
   });
 });
 
@@ -246,6 +268,7 @@ describe('AG: invokeAgent', () => {
       message: 'm',
       thread_id: 'tid',
       user: 'u1',
+      metadata: { customer_id: 'cus_123', trial: false },
       messages: [{ role: 'user', content: 'prev' }],
       image_urls: ['https://img.example.com/1.png'],
     });
@@ -254,6 +277,7 @@ describe('AG: invokeAgent', () => {
     const body = JSON.parse(opts.body as string);
     expect(body.thread_id).toBe('tid');
     expect(body.user).toBe('u1');
+    expect(body.metadata).toEqual({ customer_id: 'cus_123', trial: false });
     expect(body.messages).toHaveLength(1);
     expect(body.image_urls).toHaveLength(1);
   });
@@ -269,13 +293,14 @@ describe('S: Streaming endpoints', () => {
 
     const client = new FetchHive({ apiKey: 'k' });
     const chunks: unknown[] = [];
-    for await (const chunk of client.invokePromptStream({ deployment: 'd' })) {
+    for await (const chunk of client.invokePromptStream({ deployment: 'd', metadata: { plan: 'enterprise' } })) {
       chunks.push(chunk);
     }
 
     const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
     const body = JSON.parse(opts.body as string);
     expect(body.streaming).toBe(true);
+    expect(body.metadata).toEqual({ plan: 'enterprise' });
     expect(chunks).toHaveLength(1);
     expect((chunks[0] as { response: string }).response).toBe('Hello');
   });
@@ -287,13 +312,14 @@ describe('S: Streaming endpoints', () => {
 
     const client = new FetchHive({ apiKey: 'k' });
     const chunks: unknown[] = [];
-    for await (const chunk of client.invokeAgentStream({ agent: 'a', message: 'm' })) {
+    for await (const chunk of client.invokeAgentStream({ agent: 'a', message: 'm', metadata: { plan: 'enterprise' } })) {
       chunks.push(chunk);
     }
 
     const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
     const body = JSON.parse(opts.body as string);
     expect(body.streaming).toBe(true);
+    expect(body.metadata).toEqual({ plan: 'enterprise' });
     expect(chunks).toHaveLength(1);
     expect((chunks[0] as { response: string }).response).toBe('Hi');
   });

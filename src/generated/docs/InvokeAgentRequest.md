@@ -11,6 +11,7 @@ Name | Type
 `threadId` | string
 `streaming` | boolean
 `user` | string
+`metadata` | [{ [key: string]: MetadataValue; }](MetadataValue.md)
 `messages` | [Array&lt;AgentMessage&gt;](AgentMessage.md)
 `imageUrls` | Array&lt;string&gt;
 
@@ -26,6 +27,7 @@ const example = {
   "threadId": null,
   "streaming": null,
   "user": null,
+  "metadata": {"customer_id":"cus_123","plan":"enterprise","trial":false,"invoice_count":12,"region":null},
   "messages": null,
   "imageUrls": null,
 } satisfies InvokeAgentRequest

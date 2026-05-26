@@ -11,6 +11,7 @@ Name | Type
 `inputs` | { [key: string]: any; }
 `streaming` | boolean
 `user` | string
+`metadata` | [{ [key: string]: MetadataValue; }](MetadataValue.md)
 
 ## Example
 
@@ -24,6 +25,7 @@ const example = {
   "inputs": {"name":"Alice","topic":"machine learning"},
   "streaming": null,
   "user": null,
+  "metadata": {"customer_id":"cus_123","plan":"enterprise","trial":false,"invoice_count":12,"region":null},
 } satisfies InvokePromptRequest
 
 console.log(example)

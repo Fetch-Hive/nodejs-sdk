@@ -1,6 +1,6 @@
 {
   "name": "@fetch-hive/sdk",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Official Node.js / TypeScript SDK for the Fetch Hive API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -11,6 +11,7 @@ Name | Type
 `inputs` | { [key: string]: any; }
 `async` | [AsyncConfig](AsyncConfig.md)
 `user` | string
+`metadata` | [{ [key: string]: MetadataValue; }](MetadataValue.md)
 
 ## Example
 
@@ -24,6 +25,7 @@ const example = {
   "inputs": {"customer_id":"42"},
   "async": null,
   "user": null,
+  "metadata": {"customer_id":"cus_123","plan":"enterprise","trial":false,"invoice_count":12,"region":null},
 } satisfies InvokeWorkflowRequest
 
 console.log(example)

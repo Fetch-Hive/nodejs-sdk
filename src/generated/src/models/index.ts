@@ -10,6 +10,7 @@ export * from './InvokePromptResponse';
 export * from './InvokeWorkflowAsyncResponse';
 export * from './InvokeWorkflowRequest';
 export * from './InvokeWorkflowResponse';
+export * from './MetadataValue';
 export * from './SseChunk';
 export * from './TokenUsage';
 export * from './ToolInvocation';

@@ -37,11 +37,14 @@ export interface FetchHiveOptions {
 
 // ── Request types (inline so the client file is self-contained) ───────────────
 
+export type Metadata = Record<string, string | number | boolean | null>;
+
 export interface InvokePromptRequest {
   deployment: string;
   variant?: string;
   inputs?: Record<string, unknown>;
   user?: string;
+  metadata?: Metadata;
 }
 
 export interface InvokeWorkflowRequest {
@@ -50,6 +53,7 @@ export interface InvokeWorkflowRequest {
   inputs?: Record<string, unknown>;
   async?: { enabled: boolean; callback_url?: string };
   user?: string;
+  metadata?: Metadata;
 }
 
 export interface InvokeAgentRequest {
@@ -57,6 +61,7 @@ export interface InvokeAgentRequest {
   agent: string;
   thread_id?: string;
   user?: string;
+  metadata?: Metadata;
   messages?: Array<{ role: 'user' | 'assistant' | 'system'; content: string; image_urls?: string[] }>;
   image_urls?: string[];
 }
