@@ -4,96 +4,17 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch**](AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsidclearmessagespatch) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id}/clear_messages | Clear all messages in a chat |
-| [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete**](AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsiddelete) | **DELETE** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Delete a chat |
-| [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet**](AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsidget) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Get a chat |
-| [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch**](AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Update a chat |
-| [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsPost**](AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatspostoperation) | **POST** /public/workspaces/{workspace_id}/agents/{agent_id}/chats | Create a chat |
+| [**deletePublicWorkspacesAgentsChats**](AgentChatsApi.md#deletepublicworkspacesagentschats) | **DELETE** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Delete a chat |
+| [**getPublicWorkspacesAgentsChats**](AgentChatsApi.md#getpublicworkspacesagentschats) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Get a chat |
+| [**patchPublicWorkspacesAgentsChats**](AgentChatsApi.md#patchpublicworkspacesagentschatsoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Update a chat |
+| [**patchPublicWorkspacesAgentsChatsClearMessages**](AgentChatsApi.md#patchpublicworkspacesagentschatsclearmessages) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id}/clear_messages | Clear all messages in a chat |
+| [**postPublicWorkspacesAgentsChats**](AgentChatsApi.md#postpublicworkspacesagentschatsoperation) | **POST** /public/workspaces/{workspace_id}/agents/{agent_id}/chats | Create a chat |
 
 
 
-## publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch
+## deletePublicWorkspacesAgentsChats
 
-> PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch200Response publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch(workspaceId, agentId, id)
-
-Clear all messages in a chat
-
-Destroys all messages in the chat and resets the last message content.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  AgentChatsApi,
-} from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatchRequest } from '@fetch-hive/sdk';
-
-async function example() {
-  console.log("🚀 Testing @fetch-hive/sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearer_auth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new AgentChatsApi(config);
-
-  const body = {
-    // string | Workspace UUID
-    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | Agent UUID
-    agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | Chat UUID
-    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatchRequest;
-
-  try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-| **agentId** | `string` | Agent UUID | [Defaults to `undefined`] |
-| **id** | `string` | Chat UUID | [Defaults to `undefined`] |
-
-### Return type
-
-[**PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch200Response**](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch200Response.md)
-
-### Authorization
-
-[bearer_auth](../README.md#bearer_auth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | messages cleared |  -  |
-| **401** | unauthorized |  -  |
-| **404** | chat not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete
-
-> PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete200Response publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete(workspaceId, agentId, id)
+> DeletePublicWorkspacesAgentsChats200Response deletePublicWorkspacesAgentsChats(workspaceId, agentId, id)
 
 Delete a chat
 
@@ -106,7 +27,7 @@ import {
   Configuration,
   AgentChatsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDeleteRequest } from '@fetch-hive/sdk';
+import type { DeletePublicWorkspacesAgentsChatsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -123,10 +44,10 @@ async function example() {
     agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Chat UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDeleteRequest;
+  } satisfies DeletePublicWorkspacesAgentsChatsRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete(body);
+    const data = await api.deletePublicWorkspacesAgentsChats(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -148,7 +69,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete200Response**](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete200Response.md)
+[**DeletePublicWorkspacesAgentsChats200Response**](DeletePublicWorkspacesAgentsChats200Response.md)
 
 ### Authorization
 
@@ -170,9 +91,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet
+## getPublicWorkspacesAgentsChats
 
-> PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet200Response publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet(workspaceId, agentId, id)
+> GetPublicWorkspacesAgentsChats200Response getPublicWorkspacesAgentsChats(workspaceId, agentId, id)
 
 Get a chat
 
@@ -185,7 +106,7 @@ import {
   Configuration,
   AgentChatsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesAgentsChatsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -202,10 +123,10 @@ async function example() {
     agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Chat UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGetRequest;
+  } satisfies GetPublicWorkspacesAgentsChatsRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet(body);
+    const data = await api.getPublicWorkspacesAgentsChats(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -227,7 +148,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet200Response**](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet200Response.md)
+[**GetPublicWorkspacesAgentsChats200Response**](GetPublicWorkspacesAgentsChats200Response.md)
 
 ### Authorization
 
@@ -249,9 +170,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch
+## patchPublicWorkspacesAgentsChats
 
-> PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch200Response publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch(workspaceId, agentId, id, publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest)
+> PatchPublicWorkspacesAgentsChats200Response patchPublicWorkspacesAgentsChats(workspaceId, agentId, id, patchPublicWorkspacesAgentsChatsRequest)
 
 Update a chat
 
@@ -264,7 +185,7 @@ import {
   Configuration,
   AgentChatsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchOperationRequest } from '@fetch-hive/sdk';
+import type { PatchPublicWorkspacesAgentsChatsOperationRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -281,12 +202,12 @@ async function example() {
     agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Chat UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest
-    publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest: ...,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchOperationRequest;
+    // PatchPublicWorkspacesAgentsChatsRequest
+    patchPublicWorkspacesAgentsChatsRequest: ...,
+  } satisfies PatchPublicWorkspacesAgentsChatsOperationRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch(body);
+    const data = await api.patchPublicWorkspacesAgentsChats(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -305,11 +226,11 @@ example().catch(console.error);
 | **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
 | **agentId** | `string` | Agent UUID | [Defaults to `undefined`] |
 | **id** | `string` | Chat UUID | [Defaults to `undefined`] |
-| **publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest** | [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest.md) |  | |
+| **patchPublicWorkspacesAgentsChatsRequest** | [PatchPublicWorkspacesAgentsChatsRequest](PatchPublicWorkspacesAgentsChatsRequest.md) |  | |
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch200Response**](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch200Response.md)
+[**PatchPublicWorkspacesAgentsChats200Response**](PatchPublicWorkspacesAgentsChats200Response.md)
 
 ### Authorization
 
@@ -331,13 +252,13 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdAgentsAgentIdChatsPost
+## patchPublicWorkspacesAgentsChatsClearMessages
 
-> PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200Response publicWorkspacesWorkspaceIdAgentsAgentIdChatsPost(workspaceId, agentId, publicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest)
+> PatchPublicWorkspacesAgentsChatsClearMessages200Response patchPublicWorkspacesAgentsChatsClearMessages(workspaceId, agentId, id)
 
-Create a chat
+Clear all messages in a chat
 
-Creates a new chat session for the agent in the requested workspace.
+Destroys all messages in the chat and resets the last message content.
 
 ### Example
 
@@ -346,7 +267,7 @@ import {
   Configuration,
   AgentChatsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostOperationRequest } from '@fetch-hive/sdk';
+import type { PatchPublicWorkspacesAgentsChatsClearMessagesRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -361,12 +282,12 @@ async function example() {
     workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Agent UUID
     agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest
-    publicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest: ...,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostOperationRequest;
+    // string | Chat UUID
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies PatchPublicWorkspacesAgentsChatsClearMessagesRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsPost(body);
+    const data = await api.patchPublicWorkspacesAgentsChatsClearMessages(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -384,11 +305,90 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
 | **agentId** | `string` | Agent UUID | [Defaults to `undefined`] |
-| **publicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest** | [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest.md) |  | |
+| **id** | `string` | Chat UUID | [Defaults to `undefined`] |
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200Response**](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200Response.md)
+[**PatchPublicWorkspacesAgentsChatsClearMessages200Response**](PatchPublicWorkspacesAgentsChatsClearMessages200Response.md)
+
+### Authorization
+
+[bearer_auth](../README.md#bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | messages cleared |  -  |
+| **401** | unauthorized |  -  |
+| **404** | chat not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## postPublicWorkspacesAgentsChats
+
+> PostPublicWorkspacesAgentsChats200Response postPublicWorkspacesAgentsChats(workspaceId, agentId, postPublicWorkspacesAgentsChatsRequest)
+
+Create a chat
+
+Creates a new chat session for the agent in the requested workspace.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentChatsApi,
+} from '@fetch-hive/sdk';
+import type { PostPublicWorkspacesAgentsChatsOperationRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer_auth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentChatsApi(config);
+
+  const body = {
+    // string | Workspace UUID
+    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Agent UUID
+    agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // PostPublicWorkspacesAgentsChatsRequest
+    postPublicWorkspacesAgentsChatsRequest: ...,
+  } satisfies PostPublicWorkspacesAgentsChatsOperationRequest;
+
+  try {
+    const data = await api.postPublicWorkspacesAgentsChats(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
+| **agentId** | `string` | Agent UUID | [Defaults to `undefined`] |
+| **postPublicWorkspacesAgentsChatsRequest** | [PostPublicWorkspacesAgentsChatsRequest](PostPublicWorkspacesAgentsChatsRequest.md) |  | |
+
+### Return type
+
+[**PostPublicWorkspacesAgentsChats200Response**](PostPublicWorkspacesAgentsChats200Response.md)
 
 ### Authorization
 

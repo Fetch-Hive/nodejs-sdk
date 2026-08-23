@@ -4,13 +4,13 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet**](AgentChatMessagesApi.md#publicworkspacesworkspaceidagentsagentidchatschatidmessagesget) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{chat_id}/messages | List messages in a chat |
+| [**getPublicWorkspacesAgentsChatsMessages**](AgentChatMessagesApi.md#getpublicworkspacesagentschatsmessages) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{chat_id}/messages | List messages in a chat |
 
 
 
-## publicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet
+## getPublicWorkspacesAgentsChatsMessages
 
-> PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200Response publicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet(workspaceId, agentId, chatId)
+> GetPublicWorkspacesAgentsChatsMessages200Response getPublicWorkspacesAgentsChatsMessages(workspaceId, agentId, chatId)
 
 List messages in a chat
 
@@ -23,7 +23,7 @@ import {
   Configuration,
   AgentChatMessagesApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesAgentsChatsMessagesRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -40,10 +40,10 @@ async function example() {
     agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Chat UUID
     chatId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGetRequest;
+  } satisfies GetPublicWorkspacesAgentsChatsMessagesRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet(body);
+    const data = await api.getPublicWorkspacesAgentsChatsMessages(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -65,7 +65,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200Response**](PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200Response.md)
+[**GetPublicWorkspacesAgentsChatsMessages200Response**](GetPublicWorkspacesAgentsChatsMessages200Response.md)
 
 ### Authorization
 

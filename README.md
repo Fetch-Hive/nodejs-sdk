@@ -138,7 +138,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.2.7
+0.2.8
 
 ## License
 

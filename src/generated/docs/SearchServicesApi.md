@@ -4,14 +4,14 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicSearchServicesCountriesGet**](SearchServicesApi.md#publicsearchservicescountriesget) | **GET** /public/search_services/countries | List public search-service country catalogs |
-| [**publicSearchServicesServiceCountriesGet**](SearchServicesApi.md#publicsearchservicesservicecountriesget) | **GET** /public/search_services/{service}/countries | Retrieve public search-service country catalog |
+| [**getPublicSearchServicesCountries**](SearchServicesApi.md#getpublicsearchservicescountries) | **GET** /public/search_services/countries | List public search-service country catalogs |
+| [**getPublicSearchServicesCountries2**](SearchServicesApi.md#getpublicsearchservicescountries2) | **GET** /public/search_services/{service}/countries | Retrieve public search-service country catalog |
 
 
 
-## publicSearchServicesCountriesGet
+## getPublicSearchServicesCountries
 
-> PublicSearchServicesCountriesGet200Response publicSearchServicesCountriesGet()
+> GetPublicSearchServicesCountries200Response getPublicSearchServicesCountries()
 
 List public search-service country catalogs
 
@@ -24,14 +24,14 @@ import {
   Configuration,
   SearchServicesApi,
 } from '@fetch-hive/sdk';
-import type { PublicSearchServicesCountriesGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicSearchServicesCountriesRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
   const api = new SearchServicesApi();
 
   try {
-    const data = await api.publicSearchServicesCountriesGet();
+    const data = await api.getPublicSearchServicesCountries();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**PublicSearchServicesCountriesGet200Response**](PublicSearchServicesCountriesGet200Response.md)
+[**GetPublicSearchServicesCountries200Response**](GetPublicSearchServicesCountries200Response.md)
 
 ### Authorization
 
@@ -68,9 +68,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicSearchServicesServiceCountriesGet
+## getPublicSearchServicesCountries2
 
-> PublicSearchServicesCountriesGet200ResponseServicesInner publicSearchServicesServiceCountriesGet(service)
+> GetPublicSearchServicesCountries200ResponseServicesInner getPublicSearchServicesCountries2(service)
 
 Retrieve public search-service country catalog
 
@@ -83,7 +83,7 @@ import {
   Configuration,
   SearchServicesApi,
 } from '@fetch-hive/sdk';
-import type { PublicSearchServicesServiceCountriesGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicSearchServicesCountries2Request } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -92,10 +92,10 @@ async function example() {
   const body = {
     // 'google_search' | 'google_news' | 'google_ai_mode' | 'google_ai_overview' | 'bing_search' | Search workflow service key.
     service: service_example,
-  } satisfies PublicSearchServicesServiceCountriesGetRequest;
+  } satisfies GetPublicSearchServicesCountries2Request;
 
   try {
-    const data = await api.publicSearchServicesServiceCountriesGet(body);
+    const data = await api.getPublicSearchServicesCountries2(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -115,7 +115,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicSearchServicesCountriesGet200ResponseServicesInner**](PublicSearchServicesCountriesGet200ResponseServicesInner.md)
+[**GetPublicSearchServicesCountries200ResponseServicesInner**](GetPublicSearchServicesCountries200ResponseServicesInner.md)
 
 ### Authorization
 

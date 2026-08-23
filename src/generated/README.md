@@ -18,7 +18,7 @@ import {
   Configuration,
   AgentChatMessagesApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesAgentsChatsMessagesRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -35,10 +35,10 @@ async function example() {
     agentId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Chat UUID
     chatId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGetRequest;
+  } satisfies GetPublicWorkspacesAgentsChatsMessagesRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet(body);
+    const data = await api.getPublicWorkspacesAgentsChatsMessages(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -58,38 +58,38 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Class | Method | HTTP request | Description
 | ----- | ------ | ------------ | -------------
-*AgentChatMessagesApi* | [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet**](docs/AgentChatMessagesApi.md#publicworkspacesworkspaceidagentsagentidchatschatidmessagesget) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{chat_id}/messages | List messages in a chat
-*AgentChatsApi* | [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch**](docs/AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsidclearmessagespatch) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id}/clear_messages | Clear all messages in a chat
-*AgentChatsApi* | [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete**](docs/AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsiddelete) | **DELETE** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Delete a chat
-*AgentChatsApi* | [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet**](docs/AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsidget) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Get a chat
-*AgentChatsApi* | [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch**](docs/AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatsidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Update a chat
-*AgentChatsApi* | [**publicWorkspacesWorkspaceIdAgentsAgentIdChatsPost**](docs/AgentChatsApi.md#publicworkspacesworkspaceidagentsagentidchatspostoperation) | **POST** /public/workspaces/{workspace_id}/agents/{agent_id}/chats | Create a chat
+*AgentChatMessagesApi* | [**getPublicWorkspacesAgentsChatsMessages**](docs/AgentChatMessagesApi.md#getpublicworkspacesagentschatsmessages) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{chat_id}/messages | List messages in a chat
+*AgentChatsApi* | [**deletePublicWorkspacesAgentsChats**](docs/AgentChatsApi.md#deletepublicworkspacesagentschats) | **DELETE** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Delete a chat
+*AgentChatsApi* | [**getPublicWorkspacesAgentsChats**](docs/AgentChatsApi.md#getpublicworkspacesagentschats) | **GET** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Get a chat
+*AgentChatsApi* | [**patchPublicWorkspacesAgentsChats**](docs/AgentChatsApi.md#patchpublicworkspacesagentschatsoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id} | Update a chat
+*AgentChatsApi* | [**patchPublicWorkspacesAgentsChatsClearMessages**](docs/AgentChatsApi.md#patchpublicworkspacesagentschatsclearmessages) | **PATCH** /public/workspaces/{workspace_id}/agents/{agent_id}/chats/{id}/clear_messages | Clear all messages in a chat
+*AgentChatsApi* | [**postPublicWorkspacesAgentsChats**](docs/AgentChatsApi.md#postpublicworkspacesagentschatsoperation) | **POST** /public/workspaces/{workspace_id}/agents/{agent_id}/chats | Create a chat
+*AgentsApi* | [**deletePublicWorkspacesAgents**](docs/AgentsApi.md#deletepublicworkspacesagents) | **DELETE** /public/workspaces/{workspace_id}/agents/{id} | Delete an agent
+*AgentsApi* | [**getPublicWorkspacesAgents**](docs/AgentsApi.md#getpublicworkspacesagents) | **GET** /public/workspaces/{workspace_id}/agents/{id} | Get an agent
+*AgentsApi* | [**getPublicWorkspacesAgents2**](docs/AgentsApi.md#getpublicworkspacesagents2) | **GET** /public/workspaces/{workspace_id}/agents | List public workspace agents
 *AgentsApi* | [**invokeAgent**](docs/AgentsApi.md#invokeagentoperation) | **POST** /agent/invoke | Invoke an agent
-*AgentsApi* | [**publicWorkspacesWorkspaceIdAgentsGet**](docs/AgentsApi.md#publicworkspacesworkspaceidagentsget) | **GET** /public/workspaces/{workspace_id}/agents | List public workspace agents
-*AgentsApi* | [**publicWorkspacesWorkspaceIdAgentsIdDelete**](docs/AgentsApi.md#publicworkspacesworkspaceidagentsiddelete) | **DELETE** /public/workspaces/{workspace_id}/agents/{id} | Delete an agent
-*AgentsApi* | [**publicWorkspacesWorkspaceIdAgentsIdGet**](docs/AgentsApi.md#publicworkspacesworkspaceidagentsidget) | **GET** /public/workspaces/{workspace_id}/agents/{id} | Get an agent
-*AgentsApi* | [**publicWorkspacesWorkspaceIdAgentsIdPatch**](docs/AgentsApi.md#publicworkspacesworkspaceidagentsidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{id} | Update an agent
-*AgentsApi* | [**publicWorkspacesWorkspaceIdAgentsPost**](docs/AgentsApi.md#publicworkspacesworkspaceidagentspostoperation) | **POST** /public/workspaces/{workspace_id}/agents | Create an agent
-*AssetsApi* | [**publicWorkspacesWorkspaceIdAssetsGet**](docs/AssetsApi.md#publicworkspacesworkspaceidassetsget) | **GET** /public/workspaces/{workspace_id}/assets | List public workspace assets
-*AssetsApi* | [**publicWorkspacesWorkspaceIdAssetsPost**](docs/AssetsApi.md#publicworkspacesworkspaceidassetspost) | **POST** /public/workspaces/{workspace_id}/assets | Upload a public workspace asset
+*AgentsApi* | [**patchPublicWorkspacesAgents**](docs/AgentsApi.md#patchpublicworkspacesagentsoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{id} | Update an agent
+*AgentsApi* | [**postPublicWorkspacesAgents**](docs/AgentsApi.md#postpublicworkspacesagentsoperation) | **POST** /public/workspaces/{workspace_id}/agents | Create an agent
+*AssetsApi* | [**getPublicWorkspacesAssets**](docs/AssetsApi.md#getpublicworkspacesassets) | **GET** /public/workspaces/{workspace_id}/assets | List public workspace assets
+*AssetsApi* | [**postPublicWorkspacesAssets**](docs/AssetsApi.md#postpublicworkspacesassets) | **POST** /public/workspaces/{workspace_id}/assets | Upload a public workspace asset
 *HiveAgentsApi* | [**invokeHiveAgent**](docs/HiveAgentsApi.md#invokehiveagentoperation) | **POST** /hive-agent/invoke | Invoke a Hive Agent
-*KnowledgeBaseItemsApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet**](docs/KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsget) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | List public workspace knowledge base items
-*KnowledgeBaseItemsApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete**](docs/KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsiddelete) | **DELETE** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Delete a knowledge base item
-*KnowledgeBaseItemsApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet**](docs/KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsidget) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Get a knowledge base item
-*KnowledgeBaseItemsApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch**](docs/KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Update a knowledge base item
-*KnowledgeBaseItemsApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost**](docs/KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsidregeneratepost) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id}/regenerate | Regenerate a knowledge base item
-*KnowledgeBaseItemsApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost**](docs/KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemspostoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | Create a knowledge base item
-*KnowledgeBasesApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesGet**](docs/KnowledgeBasesApi.md#publicworkspacesworkspaceidknowledgebasesget) | **GET** /public/workspaces/{workspace_id}/knowledge_bases | List public workspace knowledge bases
-*KnowledgeBasesApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesIdDelete**](docs/KnowledgeBasesApi.md#publicworkspacesworkspaceidknowledgebasesiddelete) | **DELETE** /public/workspaces/{workspace_id}/knowledge_bases/{id} | Delete a knowledge base
-*KnowledgeBasesApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesIdGet**](docs/KnowledgeBasesApi.md#publicworkspacesworkspaceidknowledgebasesidget) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{id} | Get a knowledge base
-*KnowledgeBasesApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesIdPatch**](docs/KnowledgeBasesApi.md#publicworkspacesworkspaceidknowledgebasesidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/knowledge_bases/{id} | Update a knowledge base
-*KnowledgeBasesApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPost**](docs/KnowledgeBasesApi.md#publicworkspacesworkspaceidknowledgebasesidsearchpostoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{id}/search | Search a knowledge base
-*KnowledgeBasesApi* | [**publicWorkspacesWorkspaceIdKnowledgeBasesPost**](docs/KnowledgeBasesApi.md#publicworkspacesworkspaceidknowledgebasespostoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases | Create a knowledge base
-*ModelsApi* | [**publicModelsGet**](docs/ModelsApi.md#publicmodelsget) | **GET** /public/models | List active models
+*KnowledgeBaseItemsApi* | [**deletePublicWorkspacesKnowledgeBasesItems**](docs/KnowledgeBaseItemsApi.md#deletepublicworkspacesknowledgebasesitems) | **DELETE** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Delete a knowledge base item
+*KnowledgeBaseItemsApi* | [**getPublicWorkspacesKnowledgeBasesItems**](docs/KnowledgeBaseItemsApi.md#getpublicworkspacesknowledgebasesitems) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | List public workspace knowledge base items
+*KnowledgeBaseItemsApi* | [**getPublicWorkspacesKnowledgeBasesItems2**](docs/KnowledgeBaseItemsApi.md#getpublicworkspacesknowledgebasesitems2) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Get a knowledge base item
+*KnowledgeBaseItemsApi* | [**patchPublicWorkspacesKnowledgeBasesItems**](docs/KnowledgeBaseItemsApi.md#patchpublicworkspacesknowledgebasesitemsoperation) | **PATCH** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Update a knowledge base item
+*KnowledgeBaseItemsApi* | [**postPublicWorkspacesKnowledgeBasesItems**](docs/KnowledgeBaseItemsApi.md#postpublicworkspacesknowledgebasesitemsoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | Create a knowledge base item
+*KnowledgeBaseItemsApi* | [**postPublicWorkspacesKnowledgeBasesItemsRegenerate**](docs/KnowledgeBaseItemsApi.md#postpublicworkspacesknowledgebasesitemsregenerate) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id}/regenerate | Regenerate a knowledge base item
+*KnowledgeBasesApi* | [**deletePublicWorkspacesKnowledgeBases**](docs/KnowledgeBasesApi.md#deletepublicworkspacesknowledgebases) | **DELETE** /public/workspaces/{workspace_id}/knowledge_bases/{id} | Delete a knowledge base
+*KnowledgeBasesApi* | [**getPublicWorkspacesKnowledgeBases**](docs/KnowledgeBasesApi.md#getpublicworkspacesknowledgebases) | **GET** /public/workspaces/{workspace_id}/knowledge_bases | List public workspace knowledge bases
+*KnowledgeBasesApi* | [**getPublicWorkspacesKnowledgeBases2**](docs/KnowledgeBasesApi.md#getpublicworkspacesknowledgebases2) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{id} | Get a knowledge base
+*KnowledgeBasesApi* | [**patchPublicWorkspacesKnowledgeBases**](docs/KnowledgeBasesApi.md#patchpublicworkspacesknowledgebasesoperation) | **PATCH** /public/workspaces/{workspace_id}/knowledge_bases/{id} | Update a knowledge base
+*KnowledgeBasesApi* | [**postPublicWorkspacesKnowledgeBases**](docs/KnowledgeBasesApi.md#postpublicworkspacesknowledgebasesoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases | Create a knowledge base
+*KnowledgeBasesApi* | [**postPublicWorkspacesKnowledgeBasesSearch**](docs/KnowledgeBasesApi.md#postpublicworkspacesknowledgebasessearchoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{id}/search | Search a knowledge base
+*ModelsApi* | [**getPublicModels**](docs/ModelsApi.md#getpublicmodels) | **GET** /public/models | List active models
 *PromptsApi* | [**invokePrompt**](docs/PromptsApi.md#invokepromptoperation) | **POST** /prompt/invoke | Invoke a prompt deployment
-*RequestsApi* | [**publicRequestsIdGet**](docs/RequestsApi.md#publicrequestsidget) | **GET** /public/requests/{id} | Get a request
-*SearchServicesApi* | [**publicSearchServicesCountriesGet**](docs/SearchServicesApi.md#publicsearchservicescountriesget) | **GET** /public/search_services/countries | List public search-service country catalogs
-*SearchServicesApi* | [**publicSearchServicesServiceCountriesGet**](docs/SearchServicesApi.md#publicsearchservicesservicecountriesget) | **GET** /public/search_services/{service}/countries | Retrieve public search-service country catalog
+*RequestsApi* | [**getPublicRequests**](docs/RequestsApi.md#getpublicrequests) | **GET** /public/requests/{id} | Get a request
+*SearchServicesApi* | [**getPublicSearchServicesCountries**](docs/SearchServicesApi.md#getpublicsearchservicescountries) | **GET** /public/search_services/countries | List public search-service country catalogs
+*SearchServicesApi* | [**getPublicSearchServicesCountries2**](docs/SearchServicesApi.md#getpublicsearchservicescountries2) | **GET** /public/search_services/{service}/countries | Retrieve public search-service country catalog
 *WorkflowsApi* | [**invokeWorkflow**](docs/WorkflowsApi.md#invokeworkflowoperation) | **POST** /workflow/invoke | Invoke a workflow deployment
 
 
@@ -101,8 +101,34 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [AssetObject](docs/AssetObject.md)
 - [AssetObjectTranscription](docs/AssetObjectTranscription.md)
 - [AsyncConfig](docs/AsyncConfig.md)
+- [DeletePublicWorkspacesAgents200Response](docs/DeletePublicWorkspacesAgents200Response.md)
+- [DeletePublicWorkspacesAgentsChats200Response](docs/DeletePublicWorkspacesAgentsChats200Response.md)
+- [DeletePublicWorkspacesAgentsChats404Response](docs/DeletePublicWorkspacesAgentsChats404Response.md)
+- [DeletePublicWorkspacesKnowledgeBases200Response](docs/DeletePublicWorkspacesKnowledgeBases200Response.md)
+- [DeletePublicWorkspacesKnowledgeBasesItems200Response](docs/DeletePublicWorkspacesKnowledgeBasesItems200Response.md)
 - [ErrorResponse](docs/ErrorResponse.md)
 - [GeneratedArtifact](docs/GeneratedArtifact.md)
+- [GetPublicModels200ResponseInner](docs/GetPublicModels200ResponseInner.md)
+- [GetPublicRequests200Response](docs/GetPublicRequests200Response.md)
+- [GetPublicRequests404Response](docs/GetPublicRequests404Response.md)
+- [GetPublicSearchServicesCountries200Response](docs/GetPublicSearchServicesCountries200Response.md)
+- [GetPublicSearchServicesCountries200ResponseServicesInner](docs/GetPublicSearchServicesCountries200ResponseServicesInner.md)
+- [GetPublicSearchServicesCountries200ResponseServicesInnerCountriesInner](docs/GetPublicSearchServicesCountries200ResponseServicesInnerCountriesInner.md)
+- [GetPublicSearchServicesCountries2404Response](docs/GetPublicSearchServicesCountries2404Response.md)
+- [GetPublicWorkspacesAgents200Response](docs/GetPublicWorkspacesAgents200Response.md)
+- [GetPublicWorkspacesAgents2200Response](docs/GetPublicWorkspacesAgents2200Response.md)
+- [GetPublicWorkspacesAgentsChats200Response](docs/GetPublicWorkspacesAgentsChats200Response.md)
+- [GetPublicWorkspacesAgentsChatsMessages200Response](docs/GetPublicWorkspacesAgentsChatsMessages200Response.md)
+- [GetPublicWorkspacesAgentsChatsMessages200ResponseMessagesInner](docs/GetPublicWorkspacesAgentsChatsMessages200ResponseMessagesInner.md)
+- [GetPublicWorkspacesAgentsChatsMessages422Response](docs/GetPublicWorkspacesAgentsChatsMessages422Response.md)
+- [GetPublicWorkspacesAssets200Response](docs/GetPublicWorkspacesAssets200Response.md)
+- [GetPublicWorkspacesKnowledgeBases200Response](docs/GetPublicWorkspacesKnowledgeBases200Response.md)
+- [GetPublicWorkspacesKnowledgeBases2200Response](docs/GetPublicWorkspacesKnowledgeBases2200Response.md)
+- [GetPublicWorkspacesKnowledgeBases2422Response](docs/GetPublicWorkspacesKnowledgeBases2422Response.md)
+- [GetPublicWorkspacesKnowledgeBasesItems200Response](docs/GetPublicWorkspacesKnowledgeBasesItems200Response.md)
+- [GetPublicWorkspacesKnowledgeBasesItems200ResponseKnowledgeBaseItemsInner](docs/GetPublicWorkspacesKnowledgeBasesItems200ResponseKnowledgeBaseItemsInner.md)
+- [GetPublicWorkspacesKnowledgeBasesItems2200Response](docs/GetPublicWorkspacesKnowledgeBasesItems2200Response.md)
+- [GetPublicWorkspacesKnowledgeBasesItems2422Response](docs/GetPublicWorkspacesKnowledgeBasesItems2422Response.md)
 - [HiveAgentAsyncConfig](docs/HiveAgentAsyncConfig.md)
 - [HiveAgentSources](docs/HiveAgentSources.md)
 - [InvokeAgentRequest](docs/InvokeAgentRequest.md)
@@ -116,67 +142,41 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [InvokeWorkflowResponse](docs/InvokeWorkflowResponse.md)
 - [KnowledgeBaseObject](docs/KnowledgeBaseObject.md)
 - [MetadataValue](docs/MetadataValue.md)
-- [PublicModelsGet200ResponseInner](docs/PublicModelsGet200ResponseInner.md)
-- [PublicRequestsIdGet200Response](docs/PublicRequestsIdGet200Response.md)
-- [PublicRequestsIdGet404Response](docs/PublicRequestsIdGet404Response.md)
-- [PublicSearchServicesCountriesGet200Response](docs/PublicSearchServicesCountriesGet200Response.md)
-- [PublicSearchServicesCountriesGet200ResponseServicesInner](docs/PublicSearchServicesCountriesGet200ResponseServicesInner.md)
-- [PublicSearchServicesCountriesGet200ResponseServicesInnerCountriesInner](docs/PublicSearchServicesCountriesGet200ResponseServicesInnerCountriesInner.md)
-- [PublicSearchServicesServiceCountriesGet404Response](docs/PublicSearchServicesServiceCountriesGet404Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200ResponseMessagesInner](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet200ResponseMessagesInner.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet422Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsChatIdMessagesGet422Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch200Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdClearMessagesPatch200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete200Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete404Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdDelete404Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet200Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdGet200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch200Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatch200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequest.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequestChat](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsIdPatchRequestChat.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200ResponseChat](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost200ResponseChat.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost422Response](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPost422Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequest.md)
-- [PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequestChat](docs/PublicWorkspacesWorkspaceIdAgentsAgentIdChatsPostRequestChat.md)
-- [PublicWorkspacesWorkspaceIdAgentsGet200Response](docs/PublicWorkspacesWorkspaceIdAgentsGet200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsIdDelete200Response](docs/PublicWorkspacesWorkspaceIdAgentsIdDelete200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsIdGet200Response](docs/PublicWorkspacesWorkspaceIdAgentsIdGet200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsIdPatch200Response](docs/PublicWorkspacesWorkspaceIdAgentsIdPatch200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsIdPatchRequest](docs/PublicWorkspacesWorkspaceIdAgentsIdPatchRequest.md)
-- [PublicWorkspacesWorkspaceIdAgentsIdPatchRequestAgent](docs/PublicWorkspacesWorkspaceIdAgentsIdPatchRequestAgent.md)
-- [PublicWorkspacesWorkspaceIdAgentsPost200Response](docs/PublicWorkspacesWorkspaceIdAgentsPost200Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsPost422Response](docs/PublicWorkspacesWorkspaceIdAgentsPost422Response.md)
-- [PublicWorkspacesWorkspaceIdAgentsPostRequest](docs/PublicWorkspacesWorkspaceIdAgentsPostRequest.md)
-- [PublicWorkspacesWorkspaceIdAgentsPostRequestAgent](docs/PublicWorkspacesWorkspaceIdAgentsPostRequestAgent.md)
-- [PublicWorkspacesWorkspaceIdAssetsGet200Response](docs/PublicWorkspacesWorkspaceIdAssetsGet200Response.md)
-- [PublicWorkspacesWorkspaceIdAssetsPost200Response](docs/PublicWorkspacesWorkspaceIdAssetsPost200Response.md)
-- [PublicWorkspacesWorkspaceIdAssetsPost422Response](docs/PublicWorkspacesWorkspaceIdAssetsPost422Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesGet200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesGet200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdDelete200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdDelete200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdGet200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdGet200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdGet422Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdGet422Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdPatch200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdPatch200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdPatchRequest](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdPatchRequest.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdPatchRequestKnowledgeBase](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdPatchRequestKnowledgeBase.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPost200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPost200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPost422Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPost422Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPostRequest](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesIdSearchPostRequest.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200ResponseKnowledgeBaseItemsInner](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200ResponseKnowledgeBaseItemsInner.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet422Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet422Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequestKnowledgeBaseItem](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequestKnowledgeBaseItem.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost422Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost422Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequestKnowledgeBaseItem](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequestKnowledgeBaseItem.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesPost200Response](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesPost200Response.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesPostRequest](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesPostRequest.md)
-- [PublicWorkspacesWorkspaceIdKnowledgeBasesPostRequestKnowledgeBase](docs/PublicWorkspacesWorkspaceIdKnowledgeBasesPostRequestKnowledgeBase.md)
+- [PatchPublicWorkspacesAgents200Response](docs/PatchPublicWorkspacesAgents200Response.md)
+- [PatchPublicWorkspacesAgentsChats200Response](docs/PatchPublicWorkspacesAgentsChats200Response.md)
+- [PatchPublicWorkspacesAgentsChatsClearMessages200Response](docs/PatchPublicWorkspacesAgentsChatsClearMessages200Response.md)
+- [PatchPublicWorkspacesAgentsChatsRequest](docs/PatchPublicWorkspacesAgentsChatsRequest.md)
+- [PatchPublicWorkspacesAgentsChatsRequestChat](docs/PatchPublicWorkspacesAgentsChatsRequestChat.md)
+- [PatchPublicWorkspacesAgentsRequest](docs/PatchPublicWorkspacesAgentsRequest.md)
+- [PatchPublicWorkspacesAgentsRequestAgent](docs/PatchPublicWorkspacesAgentsRequestAgent.md)
+- [PatchPublicWorkspacesKnowledgeBases200Response](docs/PatchPublicWorkspacesKnowledgeBases200Response.md)
+- [PatchPublicWorkspacesKnowledgeBasesItems200Response](docs/PatchPublicWorkspacesKnowledgeBasesItems200Response.md)
+- [PatchPublicWorkspacesKnowledgeBasesItemsRequest](docs/PatchPublicWorkspacesKnowledgeBasesItemsRequest.md)
+- [PatchPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem](docs/PatchPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem.md)
+- [PatchPublicWorkspacesKnowledgeBasesRequest](docs/PatchPublicWorkspacesKnowledgeBasesRequest.md)
+- [PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase](docs/PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase.md)
+- [PostPublicWorkspacesAgents200Response](docs/PostPublicWorkspacesAgents200Response.md)
+- [PostPublicWorkspacesAgents422Response](docs/PostPublicWorkspacesAgents422Response.md)
+- [PostPublicWorkspacesAgentsChats200Response](docs/PostPublicWorkspacesAgentsChats200Response.md)
+- [PostPublicWorkspacesAgentsChats200ResponseChat](docs/PostPublicWorkspacesAgentsChats200ResponseChat.md)
+- [PostPublicWorkspacesAgentsChats422Response](docs/PostPublicWorkspacesAgentsChats422Response.md)
+- [PostPublicWorkspacesAgentsChatsRequest](docs/PostPublicWorkspacesAgentsChatsRequest.md)
+- [PostPublicWorkspacesAgentsChatsRequestChat](docs/PostPublicWorkspacesAgentsChatsRequestChat.md)
+- [PostPublicWorkspacesAgentsRequest](docs/PostPublicWorkspacesAgentsRequest.md)
+- [PostPublicWorkspacesAgentsRequestAgent](docs/PostPublicWorkspacesAgentsRequestAgent.md)
+- [PostPublicWorkspacesAssets200Response](docs/PostPublicWorkspacesAssets200Response.md)
+- [PostPublicWorkspacesAssets422Response](docs/PostPublicWorkspacesAssets422Response.md)
+- [PostPublicWorkspacesKnowledgeBases200Response](docs/PostPublicWorkspacesKnowledgeBases200Response.md)
+- [PostPublicWorkspacesKnowledgeBasesItems200Response](docs/PostPublicWorkspacesKnowledgeBasesItems200Response.md)
+- [PostPublicWorkspacesKnowledgeBasesItems422Response](docs/PostPublicWorkspacesKnowledgeBasesItems422Response.md)
+- [PostPublicWorkspacesKnowledgeBasesItemsRegenerate200Response](docs/PostPublicWorkspacesKnowledgeBasesItemsRegenerate200Response.md)
+- [PostPublicWorkspacesKnowledgeBasesItemsRequest](docs/PostPublicWorkspacesKnowledgeBasesItemsRequest.md)
+- [PostPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem](docs/PostPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem.md)
+- [PostPublicWorkspacesKnowledgeBasesRequest](docs/PostPublicWorkspacesKnowledgeBasesRequest.md)
+- [PostPublicWorkspacesKnowledgeBasesRequestKnowledgeBase](docs/PostPublicWorkspacesKnowledgeBasesRequestKnowledgeBase.md)
+- [PostPublicWorkspacesKnowledgeBasesSearch200Response](docs/PostPublicWorkspacesKnowledgeBasesSearch200Response.md)
+- [PostPublicWorkspacesKnowledgeBasesSearch422Response](docs/PostPublicWorkspacesKnowledgeBasesSearch422Response.md)
+- [PostPublicWorkspacesKnowledgeBasesSearchRequest](docs/PostPublicWorkspacesKnowledgeBasesSearchRequest.md)
 - [SseChunk](docs/SseChunk.md)
 - [TokenUsage](docs/TokenUsage.md)
 - [ToolInvocation](docs/ToolInvocation.md)
@@ -212,7 +212,7 @@ This TypeScript SDK client supports the [Fetch API](https://fetch.spec.whatwg.or
 and is automatically generated by the
 [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: `0.2.7`
+- API version: `0.2.8`
 - Package version: `{{VERSION}}`
 - Generator version: `7.22.0`
 - Build package: `org.openapitools.codegen.languages.TypeScriptFetchClientCodegen`

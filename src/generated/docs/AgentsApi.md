@@ -4,13 +4,239 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**deletePublicWorkspacesAgents**](AgentsApi.md#deletepublicworkspacesagents) | **DELETE** /public/workspaces/{workspace_id}/agents/{id} | Delete an agent |
+| [**getPublicWorkspacesAgents**](AgentsApi.md#getpublicworkspacesagents) | **GET** /public/workspaces/{workspace_id}/agents/{id} | Get an agent |
+| [**getPublicWorkspacesAgents2**](AgentsApi.md#getpublicworkspacesagents2) | **GET** /public/workspaces/{workspace_id}/agents | List public workspace agents |
 | [**invokeAgent**](AgentsApi.md#invokeagentoperation) | **POST** /agent/invoke | Invoke an agent |
-| [**publicWorkspacesWorkspaceIdAgentsGet**](AgentsApi.md#publicworkspacesworkspaceidagentsget) | **GET** /public/workspaces/{workspace_id}/agents | List public workspace agents |
-| [**publicWorkspacesWorkspaceIdAgentsIdDelete**](AgentsApi.md#publicworkspacesworkspaceidagentsiddelete) | **DELETE** /public/workspaces/{workspace_id}/agents/{id} | Delete an agent |
-| [**publicWorkspacesWorkspaceIdAgentsIdGet**](AgentsApi.md#publicworkspacesworkspaceidagentsidget) | **GET** /public/workspaces/{workspace_id}/agents/{id} | Get an agent |
-| [**publicWorkspacesWorkspaceIdAgentsIdPatch**](AgentsApi.md#publicworkspacesworkspaceidagentsidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{id} | Update an agent |
-| [**publicWorkspacesWorkspaceIdAgentsPost**](AgentsApi.md#publicworkspacesworkspaceidagentspostoperation) | **POST** /public/workspaces/{workspace_id}/agents | Create an agent |
+| [**patchPublicWorkspacesAgents**](AgentsApi.md#patchpublicworkspacesagentsoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{id} | Update an agent |
+| [**postPublicWorkspacesAgents**](AgentsApi.md#postpublicworkspacesagentsoperation) | **POST** /public/workspaces/{workspace_id}/agents | Create an agent |
 
+
+
+## deletePublicWorkspacesAgents
+
+> DeletePublicWorkspacesAgents200Response deletePublicWorkspacesAgents(workspaceId, id)
+
+Delete an agent
+
+Destroys the agent record.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentsApi,
+} from '@fetch-hive/sdk';
+import type { DeletePublicWorkspacesAgentsRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer_auth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentsApi(config);
+
+  const body = {
+    // string | Workspace UUID
+    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Agent UUID
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies DeletePublicWorkspacesAgentsRequest;
+
+  try {
+    const data = await api.deletePublicWorkspacesAgents(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
+| **id** | `string` | Agent UUID | [Defaults to `undefined`] |
+
+### Return type
+
+[**DeletePublicWorkspacesAgents200Response**](DeletePublicWorkspacesAgents200Response.md)
+
+### Authorization
+
+[bearer_auth](../README.md#bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | agent deleted |  -  |
+| **401** | unauthorized |  -  |
+| **422** | agent not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getPublicWorkspacesAgents
+
+> GetPublicWorkspacesAgents200Response getPublicWorkspacesAgents(workspaceId, id)
+
+Get an agent
+
+Returns a single active agent belonging to the requested workspace.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentsApi,
+} from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesAgentsRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer_auth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentsApi(config);
+
+  const body = {
+    // string | Workspace UUID
+    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Agent UUID
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies GetPublicWorkspacesAgentsRequest;
+
+  try {
+    const data = await api.getPublicWorkspacesAgents(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
+| **id** | `string` | Agent UUID | [Defaults to `undefined`] |
+
+### Return type
+
+[**GetPublicWorkspacesAgents200Response**](GetPublicWorkspacesAgents200Response.md)
+
+### Authorization
+
+[bearer_auth](../README.md#bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | agent returned |  -  |
+| **401** | unauthorized |  -  |
+| **404** | workspace not found |  -  |
+| **422** | agent not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getPublicWorkspacesAgents2
+
+> GetPublicWorkspacesAgents2200Response getPublicWorkspacesAgents2(workspaceId)
+
+List public workspace agents
+
+Returns standalone agents scoped to the requested public API workspace.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentsApi,
+} from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesAgents2Request } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer_auth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentsApi(config);
+
+  const body = {
+    // string | Workspace UUID
+    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies GetPublicWorkspacesAgents2Request;
+
+  try {
+    const data = await api.getPublicWorkspacesAgents2(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
+
+### Return type
+
+[**GetPublicWorkspacesAgents2200Response**](GetPublicWorkspacesAgents2200Response.md)
+
+### Authorization
+
+[bearer_auth](../README.md#bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | agents returned |  -  |
+| **401** | unauthorized |  -  |
+| **404** | workspace not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## invokeAgent
@@ -87,235 +313,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdAgentsGet
+## patchPublicWorkspacesAgents
 
-> PublicWorkspacesWorkspaceIdAgentsGet200Response publicWorkspacesWorkspaceIdAgentsGet(workspaceId)
-
-List public workspace agents
-
-Returns standalone agents scoped to the requested public API workspace.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  AgentsApi,
-} from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsGetRequest } from '@fetch-hive/sdk';
-
-async function example() {
-  console.log("🚀 Testing @fetch-hive/sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearer_auth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new AgentsApi(config);
-
-  const body = {
-    // string | Workspace UUID
-    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsGetRequest;
-
-  try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-
-### Return type
-
-[**PublicWorkspacesWorkspaceIdAgentsGet200Response**](PublicWorkspacesWorkspaceIdAgentsGet200Response.md)
-
-### Authorization
-
-[bearer_auth](../README.md#bearer_auth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | agents returned |  -  |
-| **401** | unauthorized |  -  |
-| **404** | workspace not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publicWorkspacesWorkspaceIdAgentsIdDelete
-
-> PublicWorkspacesWorkspaceIdAgentsIdDelete200Response publicWorkspacesWorkspaceIdAgentsIdDelete(workspaceId, id)
-
-Delete an agent
-
-Destroys the agent record.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  AgentsApi,
-} from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsIdDeleteRequest } from '@fetch-hive/sdk';
-
-async function example() {
-  console.log("🚀 Testing @fetch-hive/sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearer_auth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new AgentsApi(config);
-
-  const body = {
-    // string | Workspace UUID
-    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | Agent UUID
-    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsIdDeleteRequest;
-
-  try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsIdDelete(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-| **id** | `string` | Agent UUID | [Defaults to `undefined`] |
-
-### Return type
-
-[**PublicWorkspacesWorkspaceIdAgentsIdDelete200Response**](PublicWorkspacesWorkspaceIdAgentsIdDelete200Response.md)
-
-### Authorization
-
-[bearer_auth](../README.md#bearer_auth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | agent deleted |  -  |
-| **401** | unauthorized |  -  |
-| **422** | agent not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publicWorkspacesWorkspaceIdAgentsIdGet
-
-> PublicWorkspacesWorkspaceIdAgentsIdGet200Response publicWorkspacesWorkspaceIdAgentsIdGet(workspaceId, id)
-
-Get an agent
-
-Returns a single active agent belonging to the requested workspace.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  AgentsApi,
-} from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsIdGetRequest } from '@fetch-hive/sdk';
-
-async function example() {
-  console.log("🚀 Testing @fetch-hive/sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearer_auth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new AgentsApi(config);
-
-  const body = {
-    // string | Workspace UUID
-    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | Agent UUID
-    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsIdGetRequest;
-
-  try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsIdGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-| **id** | `string` | Agent UUID | [Defaults to `undefined`] |
-
-### Return type
-
-[**PublicWorkspacesWorkspaceIdAgentsIdGet200Response**](PublicWorkspacesWorkspaceIdAgentsIdGet200Response.md)
-
-### Authorization
-
-[bearer_auth](../README.md#bearer_auth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | agent returned |  -  |
-| **401** | unauthorized |  -  |
-| **404** | workspace not found |  -  |
-| **422** | agent not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publicWorkspacesWorkspaceIdAgentsIdPatch
-
-> PublicWorkspacesWorkspaceIdAgentsIdPatch200Response publicWorkspacesWorkspaceIdAgentsIdPatch(workspaceId, id, publicWorkspacesWorkspaceIdAgentsIdPatchRequest)
+> PatchPublicWorkspacesAgents200Response patchPublicWorkspacesAgents(workspaceId, id, patchPublicWorkspacesAgentsRequest)
 
 Update an agent
 
@@ -328,7 +328,7 @@ import {
   Configuration,
   AgentsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsIdPatchOperationRequest } from '@fetch-hive/sdk';
+import type { PatchPublicWorkspacesAgentsOperationRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -343,12 +343,12 @@ async function example() {
     workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Agent UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // PublicWorkspacesWorkspaceIdAgentsIdPatchRequest
-    publicWorkspacesWorkspaceIdAgentsIdPatchRequest: ...,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsIdPatchOperationRequest;
+    // PatchPublicWorkspacesAgentsRequest
+    patchPublicWorkspacesAgentsRequest: ...,
+  } satisfies PatchPublicWorkspacesAgentsOperationRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsIdPatch(body);
+    const data = await api.patchPublicWorkspacesAgents(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -366,11 +366,11 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
 | **id** | `string` | Agent UUID | [Defaults to `undefined`] |
-| **publicWorkspacesWorkspaceIdAgentsIdPatchRequest** | [PublicWorkspacesWorkspaceIdAgentsIdPatchRequest](PublicWorkspacesWorkspaceIdAgentsIdPatchRequest.md) |  | |
+| **patchPublicWorkspacesAgentsRequest** | [PatchPublicWorkspacesAgentsRequest](PatchPublicWorkspacesAgentsRequest.md) |  | |
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsIdPatch200Response**](PublicWorkspacesWorkspaceIdAgentsIdPatch200Response.md)
+[**PatchPublicWorkspacesAgents200Response**](PatchPublicWorkspacesAgents200Response.md)
 
 ### Authorization
 
@@ -393,9 +393,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdAgentsPost
+## postPublicWorkspacesAgents
 
-> PublicWorkspacesWorkspaceIdAgentsPost200Response publicWorkspacesWorkspaceIdAgentsPost(workspaceId, publicWorkspacesWorkspaceIdAgentsPostRequest)
+> PostPublicWorkspacesAgents200Response postPublicWorkspacesAgents(workspaceId, postPublicWorkspacesAgentsRequest)
 
 Create an agent
 
@@ -408,7 +408,7 @@ import {
   Configuration,
   AgentsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAgentsPostOperationRequest } from '@fetch-hive/sdk';
+import type { PostPublicWorkspacesAgentsOperationRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -421,12 +421,12 @@ async function example() {
   const body = {
     // string | Workspace UUID
     workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // PublicWorkspacesWorkspaceIdAgentsPostRequest
-    publicWorkspacesWorkspaceIdAgentsPostRequest: ...,
-  } satisfies PublicWorkspacesWorkspaceIdAgentsPostOperationRequest;
+    // PostPublicWorkspacesAgentsRequest
+    postPublicWorkspacesAgentsRequest: ...,
+  } satisfies PostPublicWorkspacesAgentsOperationRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAgentsPost(body);
+    const data = await api.postPublicWorkspacesAgents(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -443,11 +443,11 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-| **publicWorkspacesWorkspaceIdAgentsPostRequest** | [PublicWorkspacesWorkspaceIdAgentsPostRequest](PublicWorkspacesWorkspaceIdAgentsPostRequest.md) |  | |
+| **postPublicWorkspacesAgentsRequest** | [PostPublicWorkspacesAgentsRequest](PostPublicWorkspacesAgentsRequest.md) |  | |
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAgentsPost200Response**](PublicWorkspacesWorkspaceIdAgentsPost200Response.md)
+[**PostPublicWorkspacesAgents200Response**](PostPublicWorkspacesAgents200Response.md)
 
 ### Authorization
 

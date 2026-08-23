@@ -4,94 +4,18 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet**](KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsget) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | List public workspace knowledge base items |
-| [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete**](KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsiddelete) | **DELETE** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Delete a knowledge base item |
-| [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet**](KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsidget) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Get a knowledge base item |
-| [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch**](KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsidpatchoperation) | **PATCH** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Update a knowledge base item |
-| [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost**](KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemsidregeneratepost) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id}/regenerate | Regenerate a knowledge base item |
-| [**publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost**](KnowledgeBaseItemsApi.md#publicworkspacesworkspaceidknowledgebasesknowledgebaseiditemspostoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | Create a knowledge base item |
+| [**deletePublicWorkspacesKnowledgeBasesItems**](KnowledgeBaseItemsApi.md#deletepublicworkspacesknowledgebasesitems) | **DELETE** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Delete a knowledge base item |
+| [**getPublicWorkspacesKnowledgeBasesItems**](KnowledgeBaseItemsApi.md#getpublicworkspacesknowledgebasesitems) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | List public workspace knowledge base items |
+| [**getPublicWorkspacesKnowledgeBasesItems2**](KnowledgeBaseItemsApi.md#getpublicworkspacesknowledgebasesitems2) | **GET** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Get a knowledge base item |
+| [**patchPublicWorkspacesKnowledgeBasesItems**](KnowledgeBaseItemsApi.md#patchpublicworkspacesknowledgebasesitemsoperation) | **PATCH** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id} | Update a knowledge base item |
+| [**postPublicWorkspacesKnowledgeBasesItems**](KnowledgeBaseItemsApi.md#postpublicworkspacesknowledgebasesitemsoperation) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items | Create a knowledge base item |
+| [**postPublicWorkspacesKnowledgeBasesItemsRegenerate**](KnowledgeBaseItemsApi.md#postpublicworkspacesknowledgebasesitemsregenerate) | **POST** /public/workspaces/{workspace_id}/knowledge_bases/{knowledge_base_id}/items/{id}/regenerate | Regenerate a knowledge base item |
 
 
 
-## publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet
+## deletePublicWorkspacesKnowledgeBasesItems
 
-> PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200Response publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet(workspaceId, knowledgeBaseId)
-
-List public workspace knowledge base items
-
-Returns items for a knowledge base in the requested public API workspace.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  KnowledgeBaseItemsApi,
-} from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGetRequest } from '@fetch-hive/sdk';
-
-async function example() {
-  console.log("🚀 Testing @fetch-hive/sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearer_auth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new KnowledgeBaseItemsApi(config);
-
-  const body = {
-    // string | Workspace UUID
-    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | Knowledge base UUID
-    knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGetRequest;
-
-  try {
-    const data = await api.publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-| **knowledgeBaseId** | `string` | Knowledge base UUID | [Defaults to `undefined`] |
-
-### Return type
-
-[**PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200Response**](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsGet200Response.md)
-
-### Authorization
-
-[bearer_auth](../README.md#bearer_auth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | knowledge base items returned |  -  |
-| **401** | unauthorized |  -  |
-| **422** | knowledge base not found in workspace |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete
-
-> PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete200Response publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete(workspaceId, knowledgeBaseId, id)
+> DeletePublicWorkspacesKnowledgeBasesItems200Response deletePublicWorkspacesKnowledgeBasesItems(workspaceId, knowledgeBaseId, id)
 
 Delete a knowledge base item
 
@@ -104,7 +28,7 @@ import {
   Configuration,
   KnowledgeBaseItemsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDeleteRequest } from '@fetch-hive/sdk';
+import type { DeletePublicWorkspacesKnowledgeBasesItemsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -121,10 +45,10 @@ async function example() {
     knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Knowledge base item UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDeleteRequest;
+  } satisfies DeletePublicWorkspacesKnowledgeBasesItemsRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete(body);
+    const data = await api.deletePublicWorkspacesKnowledgeBasesItems(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -146,7 +70,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete200Response**](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdDelete200Response.md)
+[**DeletePublicWorkspacesKnowledgeBasesItems200Response**](DeletePublicWorkspacesKnowledgeBasesItems200Response.md)
 
 ### Authorization
 
@@ -168,9 +92,85 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet
+## getPublicWorkspacesKnowledgeBasesItems
 
-> PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet200Response publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet(workspaceId, knowledgeBaseId, id)
+> GetPublicWorkspacesKnowledgeBasesItems200Response getPublicWorkspacesKnowledgeBasesItems(workspaceId, knowledgeBaseId)
+
+List public workspace knowledge base items
+
+Returns items for a knowledge base in the requested public API workspace.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  KnowledgeBaseItemsApi,
+} from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesKnowledgeBasesItemsRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer_auth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new KnowledgeBaseItemsApi(config);
+
+  const body = {
+    // string | Workspace UUID
+    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Knowledge base UUID
+    knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies GetPublicWorkspacesKnowledgeBasesItemsRequest;
+
+  try {
+    const data = await api.getPublicWorkspacesKnowledgeBasesItems(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
+| **knowledgeBaseId** | `string` | Knowledge base UUID | [Defaults to `undefined`] |
+
+### Return type
+
+[**GetPublicWorkspacesKnowledgeBasesItems200Response**](GetPublicWorkspacesKnowledgeBasesItems200Response.md)
+
+### Authorization
+
+[bearer_auth](../README.md#bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | knowledge base items returned |  -  |
+| **401** | unauthorized |  -  |
+| **422** | knowledge base not found in workspace |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getPublicWorkspacesKnowledgeBasesItems2
+
+> GetPublicWorkspacesKnowledgeBasesItems2200Response getPublicWorkspacesKnowledgeBasesItems2(workspaceId, knowledgeBaseId, id)
 
 Get a knowledge base item
 
@@ -183,7 +183,7 @@ import {
   Configuration,
   KnowledgeBaseItemsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesKnowledgeBasesItems2Request } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -200,10 +200,10 @@ async function example() {
     knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Knowledge base item UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGetRequest;
+  } satisfies GetPublicWorkspacesKnowledgeBasesItems2Request;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet(body);
+    const data = await api.getPublicWorkspacesKnowledgeBasesItems2(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -225,7 +225,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet200Response**](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdGet200Response.md)
+[**GetPublicWorkspacesKnowledgeBasesItems2200Response**](GetPublicWorkspacesKnowledgeBasesItems2200Response.md)
 
 ### Authorization
 
@@ -247,9 +247,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch
+## patchPublicWorkspacesKnowledgeBasesItems
 
-> PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch200Response publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch(workspaceId, knowledgeBaseId, id, publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest)
+> PatchPublicWorkspacesKnowledgeBasesItems200Response patchPublicWorkspacesKnowledgeBasesItems(workspaceId, knowledgeBaseId, id, patchPublicWorkspacesKnowledgeBasesItemsRequest)
 
 Update a knowledge base item
 
@@ -262,7 +262,7 @@ import {
   Configuration,
   KnowledgeBaseItemsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchOperationRequest } from '@fetch-hive/sdk';
+import type { PatchPublicWorkspacesKnowledgeBasesItemsOperationRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -279,12 +279,12 @@ async function example() {
     knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Knowledge base item UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest
-    publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest: ...,
-  } satisfies PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchOperationRequest;
+    // PatchPublicWorkspacesKnowledgeBasesItemsRequest
+    patchPublicWorkspacesKnowledgeBasesItemsRequest: ...,
+  } satisfies PatchPublicWorkspacesKnowledgeBasesItemsOperationRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch(body);
+    const data = await api.patchPublicWorkspacesKnowledgeBasesItems(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -303,11 +303,11 @@ example().catch(console.error);
 | **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
 | **knowledgeBaseId** | `string` | Knowledge base UUID | [Defaults to `undefined`] |
 | **id** | `string` | Knowledge base item UUID | [Defaults to `undefined`] |
-| **publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest** | [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatchRequest.md) |  | |
+| **patchPublicWorkspacesKnowledgeBasesItemsRequest** | [PatchPublicWorkspacesKnowledgeBasesItemsRequest](PatchPublicWorkspacesKnowledgeBasesItemsRequest.md) |  | |
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch200Response**](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdPatch200Response.md)
+[**PatchPublicWorkspacesKnowledgeBasesItems200Response**](PatchPublicWorkspacesKnowledgeBasesItems200Response.md)
 
 ### Authorization
 
@@ -329,9 +329,88 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost
+## postPublicWorkspacesKnowledgeBasesItems
 
-> PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost200Response publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost(workspaceId, knowledgeBaseId, id)
+> PostPublicWorkspacesKnowledgeBasesItems200Response postPublicWorkspacesKnowledgeBasesItems(workspaceId, knowledgeBaseId, postPublicWorkspacesKnowledgeBasesItemsRequest)
+
+Create a knowledge base item
+
+Creates a new item in a knowledge base in the requested public API workspace.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  KnowledgeBaseItemsApi,
+} from '@fetch-hive/sdk';
+import type { PostPublicWorkspacesKnowledgeBasesItemsOperationRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearer_auth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new KnowledgeBaseItemsApi(config);
+
+  const body = {
+    // string | Workspace UUID
+    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Knowledge base UUID
+    knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // PostPublicWorkspacesKnowledgeBasesItemsRequest
+    postPublicWorkspacesKnowledgeBasesItemsRequest: ...,
+  } satisfies PostPublicWorkspacesKnowledgeBasesItemsOperationRequest;
+
+  try {
+    const data = await api.postPublicWorkspacesKnowledgeBasesItems(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
+| **knowledgeBaseId** | `string` | Knowledge base UUID | [Defaults to `undefined`] |
+| **postPublicWorkspacesKnowledgeBasesItemsRequest** | [PostPublicWorkspacesKnowledgeBasesItemsRequest](PostPublicWorkspacesKnowledgeBasesItemsRequest.md) |  | |
+
+### Return type
+
+[**PostPublicWorkspacesKnowledgeBasesItems200Response**](PostPublicWorkspacesKnowledgeBasesItems200Response.md)
+
+### Authorization
+
+[bearer_auth](../README.md#bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | item created |  -  |
+| **401** | unauthorized |  -  |
+| **422** | validation failed |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## postPublicWorkspacesKnowledgeBasesItemsRegenerate
+
+> PostPublicWorkspacesKnowledgeBasesItemsRegenerate200Response postPublicWorkspacesKnowledgeBasesItemsRegenerate(workspaceId, knowledgeBaseId, id)
 
 Regenerate a knowledge base item
 
@@ -344,7 +423,7 @@ import {
   Configuration,
   KnowledgeBaseItemsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePostRequest } from '@fetch-hive/sdk';
+import type { PostPublicWorkspacesKnowledgeBasesItemsRegenerateRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -361,10 +440,10 @@ async function example() {
     knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // string | Knowledge base item UUID
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePostRequest;
+  } satisfies PostPublicWorkspacesKnowledgeBasesItemsRegenerateRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost(body);
+    const data = await api.postPublicWorkspacesKnowledgeBasesItemsRegenerate(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -386,7 +465,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost200Response**](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsIdRegeneratePost200Response.md)
+[**PostPublicWorkspacesKnowledgeBasesItemsRegenerate200Response**](PostPublicWorkspacesKnowledgeBasesItemsRegenerate200Response.md)
 
 ### Authorization
 
@@ -404,85 +483,6 @@ example().catch(console.error);
 | **200** | regeneration enqueued |  -  |
 | **401** | unauthorized |  -  |
 | **422** | item not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost
-
-> PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost200Response publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost(workspaceId, knowledgeBaseId, publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest)
-
-Create a knowledge base item
-
-Creates a new item in a knowledge base in the requested public API workspace.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  KnowledgeBaseItemsApi,
-} from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostOperationRequest } from '@fetch-hive/sdk';
-
-async function example() {
-  console.log("🚀 Testing @fetch-hive/sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearer_auth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new KnowledgeBaseItemsApi(config);
-
-  const body = {
-    // string | Workspace UUID
-    workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | Knowledge base UUID
-    knowledgeBaseId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest
-    publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest: ...,
-  } satisfies PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostOperationRequest;
-
-  try {
-    const data = await api.publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **workspaceId** | `string` | Workspace UUID | [Defaults to `undefined`] |
-| **knowledgeBaseId** | `string` | Knowledge base UUID | [Defaults to `undefined`] |
-| **publicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest** | [PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPostRequest.md) |  | |
-
-### Return type
-
-[**PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost200Response**](PublicWorkspacesWorkspaceIdKnowledgeBasesKnowledgeBaseIdItemsPost200Response.md)
-
-### Authorization
-
-[bearer_auth](../README.md#bearer_auth)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | item created |  -  |
-| **401** | unauthorized |  -  |
-| **422** | validation failed |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

@@ -4,13 +4,13 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicRequestsIdGet**](RequestsApi.md#publicrequestsidget) | **GET** /public/requests/{id} | Get a request |
+| [**getPublicRequests**](RequestsApi.md#getpublicrequests) | **GET** /public/requests/{id} | Get a request |
 
 
 
-## publicRequestsIdGet
+## getPublicRequests
 
-> PublicRequestsIdGet200Response publicRequestsIdGet(id)
+> GetPublicRequests200Response getPublicRequests(id)
 
 Get a request
 
@@ -23,7 +23,7 @@ import {
   Configuration,
   RequestsApi,
 } from '@fetch-hive/sdk';
-import type { PublicRequestsIdGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicRequestsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -36,10 +36,10 @@ async function example() {
   const body = {
     // string | Request ID from a Fetch Hive API response (for example, `req_019b1ad1193763f2367afc4cda5ab9df`).
     id: id_example,
-  } satisfies PublicRequestsIdGetRequest;
+  } satisfies GetPublicRequestsRequest;
 
   try {
-    const data = await api.publicRequestsIdGet(body);
+    const data = await api.getPublicRequests(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -59,7 +59,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicRequestsIdGet200Response**](PublicRequestsIdGet200Response.md)
+[**GetPublicRequests200Response**](GetPublicRequests200Response.md)
 
 ### Authorization
 

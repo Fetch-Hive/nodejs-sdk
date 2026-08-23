@@ -4,13 +4,13 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicModelsGet**](ModelsApi.md#publicmodelsget) | **GET** /public/models | List active models |
+| [**getPublicModels**](ModelsApi.md#getpublicmodels) | **GET** /public/models | List active models |
 
 
 
-## publicModelsGet
+## getPublicModels
 
-> Array&lt;PublicModelsGet200ResponseInner&gt; publicModelsGet()
+> Array&lt;GetPublicModels200ResponseInner&gt; getPublicModels()
 
 List active models
 
@@ -23,7 +23,7 @@ import {
   Configuration,
   ModelsApi,
 } from '@fetch-hive/sdk';
-import type { PublicModelsGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicModelsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -34,7 +34,7 @@ async function example() {
   const api = new ModelsApi(config);
 
   try {
-    const data = await api.publicModelsGet();
+    const data = await api.getPublicModels();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -51,7 +51,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Array&lt;PublicModelsGet200ResponseInner&gt;**](PublicModelsGet200ResponseInner.md)
+[**Array&lt;GetPublicModels200ResponseInner&gt;**](GetPublicModels200ResponseInner.md)
 
 ### Authorization
 

@@ -4,14 +4,14 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**publicWorkspacesWorkspaceIdAssetsGet**](AssetsApi.md#publicworkspacesworkspaceidassetsget) | **GET** /public/workspaces/{workspace_id}/assets | List public workspace assets |
-| [**publicWorkspacesWorkspaceIdAssetsPost**](AssetsApi.md#publicworkspacesworkspaceidassetspost) | **POST** /public/workspaces/{workspace_id}/assets | Upload a public workspace asset |
+| [**getPublicWorkspacesAssets**](AssetsApi.md#getpublicworkspacesassets) | **GET** /public/workspaces/{workspace_id}/assets | List public workspace assets |
+| [**postPublicWorkspacesAssets**](AssetsApi.md#postpublicworkspacesassets) | **POST** /public/workspaces/{workspace_id}/assets | Upload a public workspace asset |
 
 
 
-## publicWorkspacesWorkspaceIdAssetsGet
+## getPublicWorkspacesAssets
 
-> PublicWorkspacesWorkspaceIdAssetsGet200Response publicWorkspacesWorkspaceIdAssetsGet(workspaceId)
+> GetPublicWorkspacesAssets200Response getPublicWorkspacesAssets(workspaceId)
 
 List public workspace assets
 
@@ -24,7 +24,7 @@ import {
   Configuration,
   AssetsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAssetsGetRequest } from '@fetch-hive/sdk';
+import type { GetPublicWorkspacesAssetsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -37,10 +37,10 @@ async function example() {
   const body = {
     // string | Workspace UUID
     workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAssetsGetRequest;
+  } satisfies GetPublicWorkspacesAssetsRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAssetsGet(body);
+    const data = await api.getPublicWorkspacesAssets(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -60,7 +60,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAssetsGet200Response**](PublicWorkspacesWorkspaceIdAssetsGet200Response.md)
+[**GetPublicWorkspacesAssets200Response**](GetPublicWorkspacesAssets200Response.md)
 
 ### Authorization
 
@@ -82,9 +82,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publicWorkspacesWorkspaceIdAssetsPost
+## postPublicWorkspacesAssets
 
-> PublicWorkspacesWorkspaceIdAssetsPost200Response publicWorkspacesWorkspaceIdAssetsPost(workspaceId)
+> PostPublicWorkspacesAssets200Response postPublicWorkspacesAssets(workspaceId)
 
 Upload a public workspace asset
 
@@ -97,7 +97,7 @@ import {
   Configuration,
   AssetsApi,
 } from '@fetch-hive/sdk';
-import type { PublicWorkspacesWorkspaceIdAssetsPostRequest } from '@fetch-hive/sdk';
+import type { PostPublicWorkspacesAssetsRequest } from '@fetch-hive/sdk';
 
 async function example() {
   console.log("🚀 Testing @fetch-hive/sdk SDK...");
@@ -110,10 +110,10 @@ async function example() {
   const body = {
     // string | Workspace UUID
     workspaceId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-  } satisfies PublicWorkspacesWorkspaceIdAssetsPostRequest;
+  } satisfies PostPublicWorkspacesAssetsRequest;
 
   try {
-    const data = await api.publicWorkspacesWorkspaceIdAssetsPost(body);
+    const data = await api.postPublicWorkspacesAssets(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -133,7 +133,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**PublicWorkspacesWorkspaceIdAssetsPost200Response**](PublicWorkspacesWorkspaceIdAssetsPost200Response.md)
+[**PostPublicWorkspacesAssets200Response**](PostPublicWorkspacesAssets200Response.md)
 
 ### Authorization
 
