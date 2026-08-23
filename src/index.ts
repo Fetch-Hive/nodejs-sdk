@@ -35,6 +35,9 @@ export type {
   InvokeWorkflowResponse,
   InvokeAgentRequest,
   InvokeAgentResponse,
+  HiveAgentSources,
+  InvokeHiveAgentRequest,
+  InvokeHiveAgentResponse,
 } from './client.js';
 
 export { parseSse, collectSse } from './streaming.js';

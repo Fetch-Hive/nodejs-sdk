@@ -64,6 +64,24 @@ export interface InvokeAgentRequest {
   metadata?: Metadata;
   messages?: Array<{ role: 'user' | 'assistant' | 'system'; content: string; image_urls?: string[] }>;
   image_urls?: string[];
+  attachments?: Array<string | Record<string, unknown>>;
+  known_artifact_refs?: string[];
+  artifact_refs?: string[];
+}
+
+export interface HiveAgentSources {
+  website_urls?: string[];
+  asset_ids?: string[];
+  knowledge_base_ids?: string[];
+  knowledge_base_item_ids?: string[];
+}
+
+export interface InvokeHiveAgentRequest {
+  hive_agent: string;
+  objective: string;
+  callback_url: string;
+  sources?: HiveAgentSources;
+  metadata?: Metadata;
 }
 
 // ── Response types ────────────────────────────────────────────────────────────
@@ -90,6 +108,13 @@ export interface InvokeAgentResponse {
   model?: string;
   usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number };
   tool_calls?: Array<{ tool_name?: string; tool_input?: string; observation?: string }>;
+}
+
+export interface InvokeHiveAgentResponse {
+  run_id?: string;
+  request_id?: string;
+  status?: 'pending';
+  webhook_secret?: string;
 }
 
 // ── Client ────────────────────────────────────────────────────────────────────
@@ -124,17 +149,36 @@ export class FetchHive {
     };
   }
 
-  private async post<T>(path: string, body: unknown): Promise<T> {
+  private async request<T>(method: string, path: string, body?: unknown): Promise<T> {
     const res = await fetch(`${this.baseURL}${path}`, {
-      method: 'POST',
+      method,
       headers: this.defaultHeaders,
-      body: JSON.stringify(body),
+      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
     });
     if (!res.ok) {
       const text = await res.text().catch(() => '');
       throw new Error(`FetchHive API error ${res.status}: ${text}`);
     }
-    return res.json() as Promise<T>;
+    if (res.status === 204) return undefined as T;
+    const text = await res.text();
+    if (!text) return undefined as T;
+    return JSON.parse(text) as T;
+  }
+
+  private post<T>(path: string, body: unknown): Promise<T> {
+    return this.request<T>('POST', path, body);
+  }
+
+  private get<T>(path: string): Promise<T> {
+    return this.request<T>('GET', path);
+  }
+
+  private patch<T>(path: string, body: unknown): Promise<T> {
+    return this.request<T>('PATCH', path, body);
+  }
+
+  private delete<T>(path: string): Promise<T> {
+    return this.request<T>('DELETE', path);
   }
 
   private postStream(path: string, body: unknown): Promise<Response> {
@@ -149,12 +193,12 @@ export class FetchHive {
 
   /** Invoke a prompt deployment and return the full response. */
   invokePrompt(params: InvokePromptRequest): Promise<InvokePromptResponse> {
-    return this.post('/invoke', { ...params, streaming: false });
+    return this.post('/prompt/invoke', { ...params, streaming: false });
   }
 
   /** Invoke a prompt deployment and stream SSE events. */
   async *invokePromptStream(params: InvokePromptRequest): AsyncIterable<SseChunk> {
-    const res = await this.postStream('/invoke', { ...params, streaming: true });
+    const res = await this.postStream('/prompt/invoke', { ...params, streaming: true });
     yield* parseSse<SseChunk>(res);
   }
 
@@ -176,5 +220,126 @@ export class FetchHive {
   async *invokeAgentStream(params: InvokeAgentRequest): AsyncIterable<SseChunk> {
     const res = await this.postStream('/agent/invoke', { ...params, streaming: true });
     yield* parseSse<SseChunk>(res);
+  }
+
+  // ── Hive Agent ──────────────────────────────────────────────────────────────
+
+  /** Start a Hive Agent run asynchronously. Requires a callback URL. */
+  invokeHiveAgent(params: InvokeHiveAgentRequest): Promise<InvokeHiveAgentResponse> {
+    if (!params.callback_url) {
+      throw new Error('FetchHive: callback_url is required for Hive Agent invocation.');
+    }
+    const { callback_url, ...rest } = params;
+    return this.post('/hive-agent/invoke', {
+      ...rest,
+      async: { enabled: true, callback_url },
+    });
+  }
+
+  // ── Public resources ────────────────────────────────────────────────────────
+
+  getRequest(id: string): Promise<unknown> {
+    return this.get(`/public/requests/${id}`);
+  }
+
+  listKnowledgeBases(workspaceId: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/knowledge_bases`);
+  }
+
+  getKnowledgeBase(workspaceId: string, id: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/knowledge_bases/${id}`);
+  }
+
+  createKnowledgeBase(workspaceId: string, knowledgeBase: Record<string, unknown>): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/knowledge_bases`, { knowledge_base: knowledgeBase });
+  }
+
+  updateKnowledgeBase(workspaceId: string, id: string, knowledgeBase: Record<string, unknown>): Promise<unknown> {
+    return this.patch(`/public/workspaces/${workspaceId}/knowledge_bases/${id}`, { knowledge_base: knowledgeBase });
+  }
+
+  deleteKnowledgeBase(workspaceId: string, id: string): Promise<unknown> {
+    return this.delete(`/public/workspaces/${workspaceId}/knowledge_bases/${id}`);
+  }
+
+  searchKnowledgeBase(workspaceId: string, id: string, params: Record<string, unknown>): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/knowledge_bases/${id}/search`, params);
+  }
+
+  listKnowledgeBaseItems(workspaceId: string, knowledgeBaseId: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/knowledge_bases/${knowledgeBaseId}/items`);
+  }
+
+  getKnowledgeBaseItem(workspaceId: string, knowledgeBaseId: string, id: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/knowledge_bases/${knowledgeBaseId}/items/${id}`);
+  }
+
+  createKnowledgeBaseItem(workspaceId: string, knowledgeBaseId: string, item: Record<string, unknown>): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/knowledge_bases/${knowledgeBaseId}/items`, {
+      knowledge_base_item: item,
+    });
+  }
+
+  updateKnowledgeBaseItem(
+    workspaceId: string,
+    knowledgeBaseId: string,
+    id: string,
+    item: Record<string, unknown>,
+  ): Promise<unknown> {
+    return this.patch(`/public/workspaces/${workspaceId}/knowledge_bases/${knowledgeBaseId}/items/${id}`, {
+      knowledge_base_item: item,
+    });
+  }
+
+  deleteKnowledgeBaseItem(workspaceId: string, knowledgeBaseId: string, id: string): Promise<unknown> {
+    return this.delete(`/public/workspaces/${workspaceId}/knowledge_bases/${knowledgeBaseId}/items/${id}`);
+  }
+
+  regenerateKnowledgeBaseItem(workspaceId: string, knowledgeBaseId: string, id: string): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/knowledge_bases/${knowledgeBaseId}/items/${id}/regenerate`, {});
+  }
+
+  listAgents(workspaceId: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/agents`);
+  }
+
+  getAgent(workspaceId: string, id: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/agents/${id}`);
+  }
+
+  createAgent(workspaceId: string, agent: Record<string, unknown>): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/agents`, { agent });
+  }
+
+  updateAgent(workspaceId: string, id: string, agent: Record<string, unknown>): Promise<unknown> {
+    return this.patch(`/public/workspaces/${workspaceId}/agents/${id}`, { agent });
+  }
+
+  deleteAgent(workspaceId: string, id: string): Promise<unknown> {
+    return this.delete(`/public/workspaces/${workspaceId}/agents/${id}`);
+  }
+
+  getAgentChat(workspaceId: string, agentId: string, chatId: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/agents/${agentId}/chats/${chatId}`);
+  }
+
+  createAgentChat(workspaceId: string, agentId: string, chat: Record<string, unknown>): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/agents/${agentId}/chats`, { chat });
+  }
+
+  updateAgentChat(workspaceId: string, agentId: string, chatId: string, chat: Record<string, unknown>): Promise<unknown> {
+    return this.patch(`/public/workspaces/${workspaceId}/agents/${agentId}/chats/${chatId}`, { chat });
+  }
+
+  deleteAgentChat(workspaceId: string, agentId: string, chatId: string): Promise<unknown> {
+    return this.delete(`/public/workspaces/${workspaceId}/agents/${agentId}/chats/${chatId}`);
+  }
+
+  clearAgentChatMessages(workspaceId: string, agentId: string, chatId: string): Promise<unknown> {
+    return this.patch(`/public/workspaces/${workspaceId}/agents/${agentId}/chats/${chatId}/clear_messages`, {});
+  }
+
+  listAgentChatMessages(workspaceId: string, agentId: string, chatId: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/agents/${agentId}/chats/${chatId}/messages`);
   }
 }

@@ -13,6 +13,7 @@ Name | Type
 `model` | string
 `usage` | [TokenUsage](TokenUsage.md)
 `toolCalls` | [Array&lt;ToolInvocation&gt;](ToolInvocation.md)
+`artifacts` | [Array&lt;GeneratedArtifact&gt;](GeneratedArtifact.md)
 
 ## Example
 
@@ -27,6 +28,7 @@ const example = {
   "model": null,
   "usage": null,
   "toolCalls": null,
+  "artifacts": null,
 } satisfies InvokeAgentResponse
 
 console.log(example)

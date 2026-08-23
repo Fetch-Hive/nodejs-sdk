@@ -1,7 +1,7 @@
 /**
  * Contract test suite for the FetchHive Node.js client.
  *
- * Covers the SDK test matrix (C1-C5, A1-A2, P1-P3, W1-W3, AG1-AG3, S1-S2, E1-E2).
+ * Covers the SDK test matrix (C1-C5, A1-A2, P1-P3, W1-W3, AG1-AG3, HA1-HA4, KB1, KBI1, PA1, PAC1, R1, S1-S2, E1-E2).
  * Tests stub global `fetch` — no real network calls are made.
  */
 import { FetchHive } from '../src/client.js';
@@ -81,7 +81,7 @@ describe('C: Construction', () => {
     // Path should not have double-slashes (the https:// prefix is fine)
     const path = url.replace(/^https?:\/\//, '');
     expect(path).not.toMatch(/\/\//);
-    expect(url).toContain('https://custom.example.com/api/invoke');
+    expect(url).toContain('https://custom.example.com/api/prompt/invoke');
   });
 
   test('C5 — default baseURL is https://api.fetchhive.com/v1', async () => {
@@ -125,7 +125,7 @@ describe('A: Auth headers', () => {
 // ── P: Prompt ─────────────────────────────────────────────────────────────────
 
 describe('P: invokePrompt', () => {
-  test('P1+P2 — POSTs to /invoke with streaming:false and returns body', async () => {
+  test('P1+P2 — POSTs to /prompt/invoke with streaming:false and returns body', async () => {
     const mockBody = { request_id: 'req_1', response: 'Hello', model: 'gpt-4o' };
     const mockFetch = makeMockFetch(mockBody);
     global.fetch = mockFetch as unknown as typeof fetch;
@@ -134,7 +134,7 @@ describe('P: invokePrompt', () => {
     const result = await client.invokePrompt({ deployment: 'my-prompt', inputs: { name: 'Alice' } });
 
     const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
-    expect(url).toContain('/invoke');
+    expect(url).toContain('/prompt/invoke');
     expect(opts.method).toBe('POST');
     const body = JSON.parse(opts.body as string);
     expect(body.streaming).toBe(false);
@@ -255,7 +255,7 @@ describe('AG: invokeAgent', () => {
     expect(body.thread_id).toBeUndefined();
     expect(body.user).toBeUndefined();
     expect(body.messages).toBeUndefined();
-    expect(body.image_urls).toBeUndefined();
+    expect(body.attachments).toBeUndefined();
   });
 
   test('AG3 — optional fields included when provided', async () => {
@@ -270,7 +270,9 @@ describe('AG: invokeAgent', () => {
       user: 'u1',
       metadata: { customer_id: 'cus_123', trial: false },
       messages: [{ role: 'user', content: 'prev' }],
-      image_urls: ['https://img.example.com/1.png'],
+      attachments: ['https://img.example.com/1.png'],
+      known_artifact_refs: ['11111111-1111-4111-8111-111111111111'],
+      artifact_refs: ['11111111-1111-4111-8111-111111111111'],
     });
 
     const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
@@ -279,7 +281,150 @@ describe('AG: invokeAgent', () => {
     expect(body.user).toBe('u1');
     expect(body.metadata).toEqual({ customer_id: 'cus_123', trial: false });
     expect(body.messages).toHaveLength(1);
-    expect(body.image_urls).toHaveLength(1);
+    expect(body.attachments).toHaveLength(1);
+    expect(body.artifact_refs).toEqual(body.known_artifact_refs);
+  });
+});
+
+// ── HA: Hive Agent ────────────────────────────────────────────────────────────
+
+describe('HA: invokeHiveAgent', () => {
+  test('HA1+HA2 — POSTs to /hive-agent/invoke and returns body', async () => {
+    const mockBody = { run_id: 'run_1', request_id: 'req_1', status: 'pending', webhook_secret: 'whsec_x' };
+    const mockFetch = makeMockFetch(mockBody, 202);
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    const result = await client.invokeHiveAgent({
+      hive_agent: 'agt_1',
+      objective: 'Research competitors',
+      callback_url: 'https://example.com/cb',
+    });
+
+    const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/hive-agent/invoke');
+    expect(opts.method).toBe('POST');
+    expect(result.run_id).toBe('run_1');
+    expect(result.webhook_secret).toBe('whsec_x');
+  });
+
+  test('HA3 — always builds async.enabled true and callback_url; missing callback_url throws', async () => {
+    const mockFetch = makeMockFetch({ status: 'pending' }, 202);
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.invokeHiveAgent({
+      hive_agent: 'agt_1',
+      objective: 'Research competitors',
+      callback_url: 'https://example.com/cb',
+    });
+
+    const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    const body = JSON.parse(opts.body as string);
+    expect(body.async).toEqual({ enabled: true, callback_url: 'https://example.com/cb' });
+
+    expect(() =>
+      client.invokeHiveAgent({
+        hive_agent: 'agt_1',
+        objective: 'Research competitors',
+        callback_url: '',
+      }),
+    ).toThrow('callback_url is required');
+  });
+
+  test('HA4 — optional sources and metadata included only when provided', async () => {
+    const mockFetch = makeMockFetch({ status: 'pending' }, 202);
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.invokeHiveAgent({
+      hive_agent: 'agt_1',
+      objective: 'Research competitors',
+      callback_url: 'https://example.com/cb',
+    });
+    const firstBody = JSON.parse((mockFetch.mock.calls[0] as [string, RequestInit])[1].body as string);
+    expect(firstBody.sources).toBeUndefined();
+    expect(firstBody.metadata).toBeUndefined();
+
+    await client.invokeHiveAgent({
+      hive_agent: 'agt_1',
+      objective: 'Research competitors',
+      callback_url: 'https://example.com/cb',
+      sources: { website_urls: ['https://example.com'] },
+      metadata: { customer_id: 'cus_123' },
+    });
+    const secondBody = JSON.parse((mockFetch.mock.calls[1] as [string, RequestInit])[1].body as string);
+    expect(secondBody.sources).toEqual({ website_urls: ['https://example.com'] });
+    expect(secondBody.metadata).toEqual({ customer_id: 'cus_123' });
+  });
+});
+
+describe('KB/PA/R: public resource helpers', () => {
+  test('KB1 — knowledge base helpers hit expected paths', async () => {
+    const mockFetch = makeMockFetch({ knowledge_bases: [] });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    await client.listKnowledgeBases('ws_1');
+    await client.createKnowledgeBase('ws_1', { name: 'KB' });
+    await client.searchKnowledgeBase('ws_1', 'kb_1', { search_query: 'q', search_type: 'hybrid' });
+
+    expect((mockFetch.mock.calls[0] as [string, RequestInit])[0]).toContain('/public/workspaces/ws_1/knowledge_bases');
+    expect((mockFetch.mock.calls[0] as [string, RequestInit])[1].method).toBe('GET');
+    expect((mockFetch.mock.calls[1] as [string, RequestInit])[1].method).toBe('POST');
+    expect((mockFetch.mock.calls[2] as [string, RequestInit])[0]).toContain('/knowledge_bases/kb_1/search');
+  });
+
+  test('KBI1 — knowledge base item helpers hit expected paths', async () => {
+    const mockFetch = makeMockFetch({ knowledge_base_item: { id: 'i1' } });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    await client.listKnowledgeBaseItems('ws_1', 'kb_1');
+    await client.regenerateKnowledgeBaseItem('ws_1', 'kb_1', 'item_1');
+
+    expect((mockFetch.mock.calls[0] as [string, RequestInit])[0]).toContain('/knowledge_bases/kb_1/items');
+    expect((mockFetch.mock.calls[1] as [string, RequestInit])[0]).toContain('/items/item_1/regenerate');
+    expect((mockFetch.mock.calls[1] as [string, RequestInit])[1].method).toBe('POST');
+  });
+
+  test('PA1 — public agent helpers hit expected paths', async () => {
+    const mockFetch = makeMockFetch({ agents: [] });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    await client.listAgents('ws_1');
+    await client.createAgent('ws_1', { name: 'Agent' });
+
+    expect((mockFetch.mock.calls[0] as [string, RequestInit])[0]).toContain('/public/workspaces/ws_1/agents');
+    expect((mockFetch.mock.calls[1] as [string, RequestInit])[1].method).toBe('POST');
+  });
+
+  test('PAC1 — agent chat helpers hit expected paths', async () => {
+    const mockFetch = makeMockFetch({ chat: { id: 'c1' } });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    await client.createAgentChat('ws_1', 'agt_1', { name: 'Chat' });
+    await client.clearAgentChatMessages('ws_1', 'agt_1', 'cht_1');
+    await client.listAgentChatMessages('ws_1', 'agt_1', 'cht_1');
+
+    expect((mockFetch.mock.calls[0] as [string, RequestInit])[0]).toContain('/agents/agt_1/chats');
+    expect((mockFetch.mock.calls[1] as [string, RequestInit])[0]).toContain('/chats/cht_1/clear_messages');
+    expect((mockFetch.mock.calls[1] as [string, RequestInit])[1].method).toBe('PATCH');
+    expect((mockFetch.mock.calls[2] as [string, RequestInit])[0]).toContain('/chats/cht_1/messages');
+  });
+
+  test('R1 — getRequest GETs /public/requests/:id', async () => {
+    const mockFetch = makeMockFetch({ request: { id: 'req_1' } });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    const result = await client.getRequest('req_1');
+    const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/public/requests/req_1');
+    expect(opts.method).toBe('GET');
+    expect(result).toEqual({ request: { id: 'req_1' } });
   });
 });
 

@@ -4,7 +4,7 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**invokePrompt**](PromptsApi.md#invokepromptoperation) | **POST** /invoke | Invoke a prompt deployment |
+| [**invokePrompt**](PromptsApi.md#invokepromptoperation) | **POST** /prompt/invoke | Invoke a prompt deployment |
 
 
 

@@ -13,7 +13,9 @@ Name | Type
 `user` | string
 `metadata` | [{ [key: string]: MetadataValue; }](MetadataValue.md)
 `messages` | [Array&lt;AgentMessage&gt;](AgentMessage.md)
-`imageUrls` | Array&lt;string&gt;
+`attachments` | [Array&lt;AgentAttachment&gt;](AgentAttachment.md)
+`knownArtifactRefs` | Array&lt;string&gt;
+`artifactRefs` | Array&lt;string&gt;
 
 ## Example
 
@@ -29,7 +31,9 @@ const example = {
   "user": null,
   "metadata": {"customer_id":"cus_123","plan":"enterprise","trial":false,"invoice_count":12,"region":null},
   "messages": null,
-  "imageUrls": null,
+  "attachments": null,
+  "knownArtifactRefs": null,
+  "artifactRefs": null,
 } satisfies InvokeAgentRequest
 
 console.log(example)

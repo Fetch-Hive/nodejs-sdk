@@ -8,7 +8,7 @@ Name | Type
 ------------ | -------------
 `role` | string
 `content` | string
-`imageUrls` | Array&lt;string&gt;
+`attachments` | [Array&lt;AgentAttachment&gt;](AgentAttachment.md)
 
 ## Example
 
@@ -19,7 +19,7 @@ import type { AgentMessage } from '@fetch-hive/sdk'
 const example = {
   "role": null,
   "content": null,
-  "imageUrls": null,
+  "attachments": null,
 } satisfies AgentMessage
 
 console.log(example)
