@@ -6,6 +6,8 @@ docs/AgentAttachment.md
 docs/AgentAttachmentOneOf.md
 docs/AgentChatMessagesApi.md
 docs/AgentChatsApi.md
+docs/AgentDelegation.md
+docs/AgentInvokeAsyncConfig.md
 docs/AgentMessage.md
 docs/AgentsApi.md
 docs/AssetObject.md
@@ -55,6 +57,7 @@ docs/InvokeWorkflowResponse.md
 docs/KnowledgeBaseItemsApi.md
 docs/KnowledgeBaseObject.md
 docs/KnowledgeBasesApi.md
+docs/ListThreadAgentDelegations200Response.md
 docs/MetadataValue.md
 docs/ModelsApi.md
 docs/PatchPublicWorkspacesAgents200Response.md
@@ -70,6 +73,7 @@ docs/PatchPublicWorkspacesKnowledgeBasesItemsRequest.md
 docs/PatchPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem.md
 docs/PatchPublicWorkspacesKnowledgeBasesRequest.md
 docs/PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase.md
+docs/PendingDelegation.md
 docs/PostPublicWorkspacesAgents200Response.md
 docs/PostPublicWorkspacesAgents422Response.md
 docs/PostPublicWorkspacesAgentsChats200Response.md
@@ -116,6 +120,8 @@ src/apis/index.ts
 src/index.ts
 src/models/AgentAttachment.ts
 src/models/AgentAttachmentOneOf.ts
+src/models/AgentDelegation.ts
+src/models/AgentInvokeAsyncConfig.ts
 src/models/AgentMessage.ts
 src/models/AssetObject.ts
 src/models/AssetObjectTranscription.ts
@@ -160,6 +166,7 @@ src/models/InvokeWorkflowAsyncResponse.ts
 src/models/InvokeWorkflowRequest.ts
 src/models/InvokeWorkflowResponse.ts
 src/models/KnowledgeBaseObject.ts
+src/models/ListThreadAgentDelegations200Response.ts
 src/models/MetadataValue.ts
 src/models/PatchPublicWorkspacesAgents200Response.ts
 src/models/PatchPublicWorkspacesAgentsChats200Response.ts
@@ -174,6 +181,7 @@ src/models/PatchPublicWorkspacesKnowledgeBasesItemsRequest.ts
 src/models/PatchPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem.ts
 src/models/PatchPublicWorkspacesKnowledgeBasesRequest.ts
 src/models/PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase.ts
+src/models/PendingDelegation.ts
 src/models/PostPublicWorkspacesAgents200Response.ts
 src/models/PostPublicWorkspacesAgents422Response.ts
 src/models/PostPublicWorkspacesAgentsChats200Response.ts

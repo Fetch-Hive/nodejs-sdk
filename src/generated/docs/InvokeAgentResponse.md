@@ -14,6 +14,7 @@ Name | Type
 `usage` | [TokenUsage](TokenUsage.md)
 `toolCalls` | [Array&lt;ToolInvocation&gt;](ToolInvocation.md)
 `artifacts` | [Array&lt;GeneratedArtifact&gt;](GeneratedArtifact.md)
+`pendingDelegations` | [Array&lt;PendingDelegation&gt;](PendingDelegation.md)
 
 ## Example
 
@@ -29,6 +30,7 @@ const example = {
   "usage": null,
   "toolCalls": null,
   "artifacts": null,
+  "pendingDelegations": null,
 } satisfies InvokeAgentResponse
 
 console.log(example)

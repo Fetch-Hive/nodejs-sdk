@@ -345,6 +345,8 @@ describe('HA: invokeHiveAgent', () => {
     const firstBody = JSON.parse((mockFetch.mock.calls[0] as [string, RequestInit])[1].body as string);
     expect(firstBody.sources).toBeUndefined();
     expect(firstBody.metadata).toBeUndefined();
+    expect(firstBody.unattended).toBeUndefined();
+    expect(firstBody.budget_policy).toBeUndefined();
 
     await client.invokeHiveAgent({
       hive_agent: 'agt_1',
@@ -352,10 +354,14 @@ describe('HA: invokeHiveAgent', () => {
       callback_url: 'https://example.com/cb',
       sources: { website_urls: ['https://example.com'] },
       metadata: { customer_id: 'cus_123' },
+      unattended: true,
+      budget_policy: 'stop',
     });
     const secondBody = JSON.parse((mockFetch.mock.calls[1] as [string, RequestInit])[1].body as string);
     expect(secondBody.sources).toEqual({ website_urls: ['https://example.com'] });
     expect(secondBody.metadata).toEqual({ customer_id: 'cus_123' });
+    expect(secondBody.unattended).toBe(true);
+    expect(secondBody.budget_policy).toBe('stop');
   });
 });
 
@@ -425,6 +431,42 @@ describe('KB/PA/R: public resource helpers', () => {
     expect(url).toContain('/public/requests/req_1');
     expect(opts.method).toBe('GET');
     expect(result).toEqual({ request: { id: 'req_1' } });
+  });
+
+  test('D1 — getAgentDelegation GETs /agent/delegations/:id', async () => {
+    const mockFetch = makeMockFetch({ id: 'del_1', status: 'pending' });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    const result = await client.getAgentDelegation('del_1');
+    const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/agent/delegations/del_1');
+    expect(opts.method).toBe('GET');
+    expect(result).toEqual({ id: 'del_1', status: 'pending' });
+  });
+
+  test('D2 — cancelAgentDelegation POSTs /agent/delegations/:id/cancel', async () => {
+    const mockFetch = makeMockFetch({ id: 'del_1', status: 'cancelled' });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    const result = await client.cancelAgentDelegation('del_1');
+    const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/agent/delegations/del_1/cancel');
+    expect(opts.method).toBe('POST');
+    expect(result).toEqual({ id: 'del_1', status: 'cancelled' });
+  });
+
+  test('D3 — listThreadDelegations GETs /agent/threads/:threadId/delegations', async () => {
+    const mockFetch = makeMockFetch({ delegations: [{ id: 'del_1' }] });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    const result = await client.listThreadDelegations('thread-1');
+    const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/agent/threads/thread-1/delegations');
+    expect(opts.method).toBe('GET');
+    expect(result).toEqual({ delegations: [{ id: 'del_1' }] });
   });
 });
 

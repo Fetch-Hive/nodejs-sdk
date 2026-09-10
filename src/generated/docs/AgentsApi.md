@@ -4,13 +4,89 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**cancelAgentDelegation**](AgentsApi.md#cancelagentdelegation) | **POST** /agent/delegations/{id}/cancel | Cancel an agent delegation |
 | [**deletePublicWorkspacesAgents**](AgentsApi.md#deletepublicworkspacesagents) | **DELETE** /public/workspaces/{workspace_id}/agents/{id} | Delete an agent |
+| [**getAgentDelegation**](AgentsApi.md#getagentdelegation) | **GET** /agent/delegations/{id} | Get an agent delegation |
 | [**getPublicWorkspacesAgents**](AgentsApi.md#getpublicworkspacesagents) | **GET** /public/workspaces/{workspace_id}/agents/{id} | Get an agent |
 | [**getPublicWorkspacesAgents2**](AgentsApi.md#getpublicworkspacesagents2) | **GET** /public/workspaces/{workspace_id}/agents | List public workspace agents |
 | [**invokeAgent**](AgentsApi.md#invokeagentoperation) | **POST** /agent/invoke | Invoke an agent |
+| [**listThreadAgentDelegations**](AgentsApi.md#listthreadagentdelegations) | **GET** /agent/threads/{thread_id}/delegations | List pending agent delegations for a thread |
 | [**patchPublicWorkspacesAgents**](AgentsApi.md#patchpublicworkspacesagentsoperation) | **PATCH** /public/workspaces/{workspace_id}/agents/{id} | Update an agent |
 | [**postPublicWorkspacesAgents**](AgentsApi.md#postpublicworkspacesagentsoperation) | **POST** /public/workspaces/{workspace_id}/agents | Create an agent |
 
+
+
+## cancelAgentDelegation
+
+> AgentDelegation cancelAgentDelegation(id)
+
+Cancel an agent delegation
+
+Cancels a pending or running background workflow that an agent started. Already finished delegations are returned unchanged. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentsApi,
+} from '@fetch-hive/sdk';
+import type { CancelAgentDelegationRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentsApi(config);
+
+  const body = {
+    // string
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies CancelAgentDelegationRequest;
+
+  try {
+    const data = await api.cancelAgentDelegation(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**AgentDelegation**](AgentDelegation.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Delegation after cancel. |  -  |
+| **401** | Missing or invalid API token. |  -  |
+| **404** | The requested resource was not found. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deletePublicWorkspacesAgents
@@ -85,6 +161,79 @@ example().catch(console.error);
 | **200** | agent deleted |  -  |
 | **401** | unauthorized |  -  |
 | **422** | agent not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getAgentDelegation
+
+> AgentDelegation getAgentDelegation(id)
+
+Get an agent delegation
+
+Returns the status and result of a background workflow started by an agent. Use this when you invoked an agent without a &#x60;thread_id&#x60; and without &#x60;async.callback_url&#x60;. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentsApi,
+} from '@fetch-hive/sdk';
+import type { GetAgentDelegationRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentsApi(config);
+
+  const body = {
+    // string
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies GetAgentDelegationRequest;
+
+  try {
+    const data = await api.getAgentDelegation(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**AgentDelegation**](AgentDelegation.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Delegation status and result. |  -  |
+| **401** | Missing or invalid API token. |  -  |
+| **404** | The requested resource was not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -309,6 +458,78 @@ example().catch(console.error);
 | **400** | Invalid request body or parameters. |  -  |
 | **401** | Missing or invalid API token. |  -  |
 | **500** | Unexpected server-side error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## listThreadAgentDelegations
+
+> ListThreadAgentDelegations200Response listThreadAgentDelegations(threadId)
+
+List pending agent delegations for a thread
+
+Lists pending and running background workflows for a conversation thread. Pass the same &#x60;thread_id&#x60; you send to &#x60;POST /agent/invoke&#x60;. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  AgentsApi,
+} from '@fetch-hive/sdk';
+import type { ListThreadAgentDelegationsRequest } from '@fetch-hive/sdk';
+
+async function example() {
+  console.log("🚀 Testing @fetch-hive/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new AgentsApi(config);
+
+  const body = {
+    // string
+    threadId: threadId_example,
+  } satisfies ListThreadAgentDelegationsRequest;
+
+  try {
+    const data = await api.listThreadAgentDelegations(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **threadId** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**ListThreadAgentDelegations200Response**](ListThreadAgentDelegations200Response.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Open delegations for the thread. |  -  |
+| **401** | Missing or invalid API token. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

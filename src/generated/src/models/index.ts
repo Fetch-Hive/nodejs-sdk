@@ -2,6 +2,8 @@
 /* eslint-disable */
 export * from './AgentAttachment';
 export * from './AgentAttachmentOneOf';
+export * from './AgentDelegation';
+export * from './AgentInvokeAsyncConfig';
 export * from './AgentMessage';
 export * from './AssetObject';
 export * from './AssetObjectTranscription';
@@ -46,6 +48,7 @@ export * from './InvokeWorkflowAsyncResponse';
 export * from './InvokeWorkflowRequest';
 export * from './InvokeWorkflowResponse';
 export * from './KnowledgeBaseObject';
+export * from './ListThreadAgentDelegations200Response';
 export * from './MetadataValue';
 export * from './PatchPublicWorkspacesAgents200Response';
 export * from './PatchPublicWorkspacesAgentsChats200Response';
@@ -60,6 +63,7 @@ export * from './PatchPublicWorkspacesKnowledgeBasesItemsRequest';
 export * from './PatchPublicWorkspacesKnowledgeBasesItemsRequestKnowledgeBaseItem';
 export * from './PatchPublicWorkspacesKnowledgeBasesRequest';
 export * from './PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase';
+export * from './PendingDelegation';
 export * from './PostPublicWorkspacesAgents200Response';
 export * from './PostPublicWorkspacesAgents422Response';
 export * from './PostPublicWorkspacesAgentsChats200Response';

@@ -8,6 +8,8 @@ Name | Type
 ------------ | -------------
 `hiveAgent` | string
 `objective` | string
+`unattended` | boolean
+`budgetPolicy` | string
 `sources` | [HiveAgentSources](HiveAgentSources.md)
 `metadata` | [{ [key: string]: MetadataValue; }](MetadataValue.md)
 `async` | [HiveAgentAsyncConfig](HiveAgentAsyncConfig.md)
@@ -21,6 +23,8 @@ import type { InvokeHiveAgentRequest } from '@fetch-hive/sdk'
 const example = {
   "hiveAgent": agent_task_uuid,
   "objective": Research competitors and summarize verified findings,
+  "unattended": true,
+  "budgetPolicy": stop,
   "sources": null,
   "metadata": {"customer_id":"cus_123","plan":"enterprise","trial":false,"invoice_count":12,"region":null},
   "async": null,

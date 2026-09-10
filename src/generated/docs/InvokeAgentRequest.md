@@ -16,6 +16,7 @@ Name | Type
 `attachments` | [Array&lt;AgentAttachment&gt;](AgentAttachment.md)
 `knownArtifactRefs` | Array&lt;string&gt;
 `artifactRefs` | Array&lt;string&gt;
+`async` | [AgentInvokeAsyncConfig](AgentInvokeAsyncConfig.md)
 
 ## Example
 
@@ -34,6 +35,7 @@ const example = {
   "attachments": null,
   "knownArtifactRefs": null,
   "artifactRefs": null,
+  "async": null,
 } satisfies InvokeAgentRequest
 
 console.log(example)

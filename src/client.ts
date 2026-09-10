@@ -82,6 +82,8 @@ export interface InvokeHiveAgentRequest {
   callback_url: string;
   sources?: HiveAgentSources;
   metadata?: Metadata;
+  unattended?: boolean;
+  budget_policy?: "stop" | "proceed_to_cap";
 }
 
 // ── Response types ────────────────────────────────────────────────────────────
@@ -220,6 +222,18 @@ export class FetchHive {
   async *invokeAgentStream(params: InvokeAgentRequest): AsyncIterable<SseChunk> {
     const res = await this.postStream('/agent/invoke', { ...params, streaming: true });
     yield* parseSse<SseChunk>(res);
+  }
+
+  getAgentDelegation(id: string): Promise<unknown> {
+    return this.get(`/agent/delegations/${id}`);
+  }
+
+  cancelAgentDelegation(id: string): Promise<unknown> {
+    return this.post(`/agent/delegations/${id}/cancel`, {});
+  }
+
+  listThreadDelegations(threadId: string): Promise<unknown> {
+    return this.get(`/agent/threads/${threadId}/delegations`);
   }
 
   // ── Hive Agent ──────────────────────────────────────────────────────────────
