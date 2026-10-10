@@ -18,6 +18,7 @@ Name | Type
 `reasoningEffort` | string
 `toolChoice` | string
 `maxToolCalls` | number
+`toolApprovalMode` | string
 
 ## Example
 
@@ -38,6 +39,7 @@ const example = {
   "reasoningEffort": null,
   "toolChoice": null,
   "maxToolCalls": 0,
+  "toolApprovalMode": null,
 } satisfies PatchPublicWorkspacesAgentsRequestAgent
 
 console.log(example)

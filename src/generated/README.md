@@ -93,6 +93,9 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 *RequestsApi* | [**getPublicRequests**](docs/RequestsApi.md#getpublicrequests) | **GET** /public/requests/{id} | Get a request
 *SearchServicesApi* | [**getPublicSearchServicesCountries**](docs/SearchServicesApi.md#getpublicsearchservicescountries) | **GET** /public/search_services/countries | List public search-service country catalogs
 *SearchServicesApi* | [**getPublicSearchServicesCountries2**](docs/SearchServicesApi.md#getpublicsearchservicescountries2) | **GET** /public/search_services/{service}/countries | Retrieve public search-service country catalog
+*ToolActionApprovalsApi* | [**getPublicWorkspacesToolActionApprovals**](docs/ToolActionApprovalsApi.md#getpublicworkspacestoolactionapprovals) | **GET** /public/workspaces/{workspace_id}/tool_action_approvals | List tool action approvals
+*ToolActionApprovalsApi* | [**getPublicWorkspacesToolActionApprovals2**](docs/ToolActionApprovalsApi.md#getpublicworkspacestoolactionapprovals2) | **GET** /public/workspaces/{workspace_id}/tool_action_approvals/{id} | Show a tool action approval
+*ToolActionApprovalsApi* | [**postPublicWorkspacesToolActionApprovalsDecide**](docs/ToolActionApprovalsApi.md#postpublicworkspacestoolactionapprovalsdecideoperation) | **POST** /public/workspaces/{workspace_id}/tool_action_approvals/{id}/decide | Decide a tool action approval
 *WorkflowsApi* | [**invokeWorkflow**](docs/WorkflowsApi.md#invokeworkflowoperation) | **POST** /workflow/invoke | Invoke a workflow deployment
 
 
@@ -111,6 +114,7 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [DeletePublicWorkspacesAgentsChats404Response](docs/DeletePublicWorkspacesAgentsChats404Response.md)
 - [DeletePublicWorkspacesKnowledgeBases200Response](docs/DeletePublicWorkspacesKnowledgeBases200Response.md)
 - [DeletePublicWorkspacesKnowledgeBasesItems200Response](docs/DeletePublicWorkspacesKnowledgeBasesItems200Response.md)
+- [DeniedToolCall](docs/DeniedToolCall.md)
 - [ErrorResponse](docs/ErrorResponse.md)
 - [GeneratedArtifact](docs/GeneratedArtifact.md)
 - [GetPublicModels200ResponseInner](docs/GetPublicModels200ResponseInner.md)
@@ -134,10 +138,14 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [GetPublicWorkspacesKnowledgeBasesItems200ResponseKnowledgeBaseItemsInner](docs/GetPublicWorkspacesKnowledgeBasesItems200ResponseKnowledgeBaseItemsInner.md)
 - [GetPublicWorkspacesKnowledgeBasesItems2200Response](docs/GetPublicWorkspacesKnowledgeBasesItems2200Response.md)
 - [GetPublicWorkspacesKnowledgeBasesItems2422Response](docs/GetPublicWorkspacesKnowledgeBasesItems2422Response.md)
+- [GetPublicWorkspacesToolActionApprovals200Response](docs/GetPublicWorkspacesToolActionApprovals200Response.md)
+- [GetPublicWorkspacesToolActionApprovals2200Response](docs/GetPublicWorkspacesToolActionApprovals2200Response.md)
 - [HiveAgentAsyncConfig](docs/HiveAgentAsyncConfig.md)
 - [HiveAgentSources](docs/HiveAgentSources.md)
 - [InvokeAgentRequest](docs/InvokeAgentRequest.md)
+- [InvokeAgentRequestDecidedToolApprovalsInner](docs/InvokeAgentRequestDecidedToolApprovalsInner.md)
 - [InvokeAgentResponse](docs/InvokeAgentResponse.md)
+- [InvokeAgentResponseAutoApprovedToolCallsInner](docs/InvokeAgentResponseAutoApprovedToolCallsInner.md)
 - [InvokeHiveAgentRequest](docs/InvokeHiveAgentRequest.md)
 - [InvokeHiveAgentResponse](docs/InvokeHiveAgentResponse.md)
 - [InvokePromptRequest](docs/InvokePromptRequest.md)
@@ -149,6 +157,7 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [ListThreadAgentDelegations200Response](docs/ListThreadAgentDelegations200Response.md)
 - [MetadataValue](docs/MetadataValue.md)
 - [PatchPublicWorkspacesAgents200Response](docs/PatchPublicWorkspacesAgents200Response.md)
+- [PatchPublicWorkspacesAgents422Response](docs/PatchPublicWorkspacesAgents422Response.md)
 - [PatchPublicWorkspacesAgentsChats200Response](docs/PatchPublicWorkspacesAgentsChats200Response.md)
 - [PatchPublicWorkspacesAgentsChatsClearMessages200Response](docs/PatchPublicWorkspacesAgentsChatsClearMessages200Response.md)
 - [PatchPublicWorkspacesAgentsChatsRequest](docs/PatchPublicWorkspacesAgentsChatsRequest.md)
@@ -162,6 +171,7 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [PatchPublicWorkspacesKnowledgeBasesRequest](docs/PatchPublicWorkspacesKnowledgeBasesRequest.md)
 - [PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase](docs/PatchPublicWorkspacesKnowledgeBasesRequestKnowledgeBase.md)
 - [PendingDelegation](docs/PendingDelegation.md)
+- [PendingToolApproval](docs/PendingToolApproval.md)
 - [PostPublicWorkspacesAgents200Response](docs/PostPublicWorkspacesAgents200Response.md)
 - [PostPublicWorkspacesAgents422Response](docs/PostPublicWorkspacesAgents422Response.md)
 - [PostPublicWorkspacesAgentsChats200Response](docs/PostPublicWorkspacesAgentsChats200Response.md)
@@ -184,8 +194,17 @@ All URIs are relative to *https://api.fetchhive.com/v1*
 - [PostPublicWorkspacesKnowledgeBasesSearch200Response](docs/PostPublicWorkspacesKnowledgeBasesSearch200Response.md)
 - [PostPublicWorkspacesKnowledgeBasesSearch422Response](docs/PostPublicWorkspacesKnowledgeBasesSearch422Response.md)
 - [PostPublicWorkspacesKnowledgeBasesSearchRequest](docs/PostPublicWorkspacesKnowledgeBasesSearchRequest.md)
+- [PostPublicWorkspacesToolActionApprovalsDecideRequest](docs/PostPublicWorkspacesToolActionApprovalsDecideRequest.md)
 - [SseChunk](docs/SseChunk.md)
+- [SseChunkAutoApprovedToolCallsInner](docs/SseChunkAutoApprovedToolCallsInner.md)
 - [TokenUsage](docs/TokenUsage.md)
+- [ToolActionApprovalObject](docs/ToolActionApprovalObject.md)
+- [ToolActionApprovalObjectApprovalVotesInner](docs/ToolActionApprovalObjectApprovalVotesInner.md)
+- [ToolActionApprovalObjectArgumentsEditedBy](docs/ToolActionApprovalObjectArgumentsEditedBy.md)
+- [ToolActionApprovalObjectBatchItemsInner](docs/ToolActionApprovalObjectBatchItemsInner.md)
+- [ToolActionApprovalObjectCapabilities](docs/ToolActionApprovalObjectCapabilities.md)
+- [ToolActionApprovalObjectDecidedByUser](docs/ToolActionApprovalObjectDecidedByUser.md)
+- [ToolActionApprovalObjectRequestedBy](docs/ToolActionApprovalObjectRequestedBy.md)
 - [ToolInvocation](docs/ToolInvocation.md)
 
 ### Authorization
@@ -219,7 +238,7 @@ This TypeScript SDK client supports the [Fetch API](https://fetch.spec.whatwg.or
 and is automatically generated by the
 [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: `0.3.0`
+- API version: `0.4.0`
 - Package version: `{{VERSION}}`
 - Generator version: `7.22.0`
 - Build package: `org.openapitools.codegen.languages.TypeScriptFetchClientCodegen`

@@ -10,6 +10,12 @@ Name | Type
 `requestId` | string
 `response` | string
 `threadId` | string
+`status` | string
+`runId` | string
+`pendingToolApprovals` | [Array&lt;PendingToolApproval&gt;](PendingToolApproval.md)
+`deniedToolCalls` | [Array&lt;DeniedToolCall&gt;](DeniedToolCall.md)
+`toolApproval` | string
+`autoApprovedToolCalls` | [Array&lt;InvokeAgentResponseAutoApprovedToolCallsInner&gt;](InvokeAgentResponseAutoApprovedToolCallsInner.md)
 `model` | string
 `usage` | [TokenUsage](TokenUsage.md)
 `toolCalls` | [Array&lt;ToolInvocation&gt;](ToolInvocation.md)
@@ -26,6 +32,12 @@ const example = {
   "requestId": null,
   "response": null,
   "threadId": null,
+  "status": null,
+  "runId": null,
+  "pendingToolApprovals": null,
+  "deniedToolCalls": null,
+  "toolApproval": null,
+  "autoApprovedToolCalls": null,
   "model": null,
   "usage": null,
   "toolCalls": null,

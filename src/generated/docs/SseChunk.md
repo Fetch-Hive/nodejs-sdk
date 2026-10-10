@@ -1,7 +1,7 @@
 
 # SseChunk
 
-A single event in a Server-Sent Events stream. The `type` field is a runtime discriminator. Known values:   - `reasoning` — a reasoning / thinking chunk (prompt and agent streams)   - `response`  — a text chunk (prompt and agent streams)   - `tool`      — a tool invocation result (agent stream only)   - `artifact`  — a generated document or image descriptor (agent stream only)   - `usage`     — final token usage event; signals end of meaningful stream content   - `summary`   — auto-summarization event emitted before reasoning when a thread                   history was compressed (agent stream only)   - `error`     — server-side error during streaming  The stream is terminated by `data: [DONE]`, which is handled by the SSE parser and never surfaced as a chunk. 
+A single event in a Server-Sent Events stream. The `type` field is a runtime discriminator. Known values:   - `reasoning` — a reasoning / thinking chunk (prompt and agent streams)   - `response`  — a text chunk (prompt and agent streams)   - `tool`      — a tool invocation result (agent stream only)   - `artifact`  — a generated document or image descriptor (agent stream only)   - `usage`     — final token usage event; signals end of meaningful stream content   - `tool_approval` — a paused tool call waiting for a decision (agent stream only)   - `summary`   — auto-summarization event emitted before reasoning when a thread                   history was compressed (agent stream only)   - `error`     — server-side error during streaming  The stream is terminated by `data: [DONE]`, which is handled by the SSE parser and never surfaced as a chunk. 
 
 ## Properties
 
@@ -19,6 +19,14 @@ Name | Type
 `observation` | string
 `artifact` | [GeneratedArtifact](GeneratedArtifact.md)
 `stopReason` | string
+`toolApproval` | string
+`approval` | { [key: string]: any; }
+`status` | string
+`runId` | string
+`threadId` | string
+`pendingToolApprovals` | [Array&lt;PendingToolApproval&gt;](PendingToolApproval.md)
+`deniedToolCalls` | [Array&lt;DeniedToolCall&gt;](DeniedToolCall.md)
+`autoApprovedToolCalls` | [Array&lt;SseChunkAutoApprovedToolCallsInner&gt;](SseChunkAutoApprovedToolCallsInner.md)
 `summaryText` | string
 `originalTokenCount` | number
 `contextLimit` | number
@@ -45,6 +53,14 @@ const example = {
   "observation": null,
   "artifact": null,
   "stopReason": null,
+  "toolApproval": null,
+  "approval": null,
+  "status": null,
+  "runId": null,
+  "threadId": null,
+  "pendingToolApprovals": null,
+  "deniedToolCalls": null,
+  "autoApprovedToolCalls": null,
   "summaryText": null,
   "originalTokenCount": null,
   "contextLimit": null,

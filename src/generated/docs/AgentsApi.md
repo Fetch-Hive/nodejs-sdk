@@ -448,15 +448,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`
+- **Accept**: `application/json`, `text/event-stream`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Agent response. When &#x60;streaming&#x60; is &#x60;false&#x60; this is a single JSON object. When &#x60;streaming&#x60; is &#x60;true&#x60; the response is a &#x60;text/event-stream&#x60; where each &#x60;data:&#x60; line contains an &#x60;SseChunk&#x60;.  |  -  |
-| **400** | Invalid request body or parameters. |  -  |
+| **400** | Invalid request body. &#x60;tool_approval&#x60; other than &#x60;policy&#x60; or &#x60;auto_approve&#x60; uses &#x60;error_code&#x60; &#x60;invalid_tool_approval&#x60;. Other validation failures use the same &#x60;ErrorResponse&#x60;.  |  -  |
 | **401** | Missing or invalid API token. |  -  |
+| **403** | &#x60;tool_approval&#x60; is &#x60;auto_approve&#x60; and this caller cannot use it. Returned before preflight or billing. &#x60;error_code&#x60; is &#x60;tool_approval_override_not_permitted&#x60;.  |  -  |
 | **500** | Unexpected server-side error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

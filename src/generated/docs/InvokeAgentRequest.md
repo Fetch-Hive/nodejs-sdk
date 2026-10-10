@@ -17,6 +17,8 @@ Name | Type
 `knownArtifactRefs` | Array&lt;string&gt;
 `artifactRefs` | Array&lt;string&gt;
 `async` | [AgentInvokeAsyncConfig](AgentInvokeAsyncConfig.md)
+`toolApproval` | string
+`decidedToolApprovals` | [Array&lt;InvokeAgentRequestDecidedToolApprovalsInner&gt;](InvokeAgentRequestDecidedToolApprovalsInner.md)
 
 ## Example
 
@@ -36,6 +38,8 @@ const example = {
   "knownArtifactRefs": null,
   "artifactRefs": null,
   "async": null,
+  "toolApproval": null,
+  "decidedToolApprovals": null,
 } satisfies InvokeAgentRequest
 
 console.log(example)

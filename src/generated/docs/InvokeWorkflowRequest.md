@@ -12,6 +12,7 @@ Name | Type
 `async` | [AsyncConfig](AsyncConfig.md)
 `user` | string
 `metadata` | [{ [key: string]: MetadataValue; }](MetadataValue.md)
+`toolApproval` | string
 
 ## Example
 
@@ -26,6 +27,7 @@ const example = {
   "async": null,
   "user": null,
   "metadata": {"customer_id":"cus_123","plan":"enterprise","trial":false,"invoice_count":12,"region":null},
+  "toolApproval": null,
 } satisfies InvokeWorkflowRequest
 
 console.log(example)

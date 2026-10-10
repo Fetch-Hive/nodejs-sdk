@@ -11,4 +11,5 @@ export * from './ModelsApi';
 export * from './PromptsApi';
 export * from './RequestsApi';
 export * from './SearchServicesApi';
+export * from './ToolActionApprovalsApi';
 export * from './WorkflowsApi';
