@@ -39,6 +39,57 @@ export interface FetchHiveOptions {
 
 export type Metadata = Record<string, string | number | boolean | null>;
 
+/** `policy` follows saved rules. `auto_approve` applies to this call only. */
+export type ToolApprovalMode = 'policy' | 'auto_approve';
+
+export type ToolApprovalDecision = 'allow_once' | 'deny';
+
+export interface ListToolActionApprovalsParams {
+  status?: string;
+  agent_id?: string;
+  run_id?: string;
+  request_id?: string;
+  cursor?: string;
+  limit?: number;
+}
+
+export interface PendingToolApproval {
+  approval_id: string;
+  tool_name: string;
+  summary: string;
+  arguments?: Record<string, unknown>;
+  expires_at?: string | null;
+  review_url?: string;
+}
+
+export interface DeniedToolCall {
+  tool_name: string;
+  approval_id?: string;
+  reason: 'policy_deny';
+}
+
+export interface AutoApprovedToolCall {
+  summary: string;
+  tool_name: string;
+}
+
+function withApprovalQuery(path: string, params: ListToolActionApprovalsParams = {}): string {
+  const query = new URLSearchParams();
+  const entries: Array<[string, string | number | undefined]> = [
+    ['status', params.status],
+    ['agent_id', params.agent_id],
+    ['run_id', params.run_id],
+    ['request_id', params.request_id],
+    ['cursor', params.cursor],
+    ['limit', params.limit],
+  ];
+  for (const [key, value] of entries) {
+    if (value !== undefined) query.set(key, String(value));
+  }
+  const qs = query.toString();
+  return qs ? `${path}?${qs}` : path;
+}
+
 export interface InvokePromptRequest {
   deployment: string;
   variant?: string;
@@ -54,6 +105,12 @@ export interface InvokeWorkflowRequest {
   async?: { enabled: boolean; callback_url?: string };
   user?: string;
   metadata?: Metadata;
+  /**
+   * `policy` follows the deployment's saved auto-approve switch. Omit the
+   * field for the same behavior. `auto_approve` applies to this call only,
+   * and only when the API key is allowed to auto-approve actions.
+   */
+  tool_approval?: ToolApprovalMode;
 }
 
 export interface InvokeAgentRequest {
@@ -67,6 +124,14 @@ export interface InvokeAgentRequest {
   attachments?: Array<string | Record<string, unknown>>;
   known_artifact_refs?: string[];
   artifact_refs?: string[];
+  /**
+   * `policy` follows workspace rules and any saved auto-approve switch. Omit
+   * the field for the same behavior. `auto_approve` applies to this call only,
+   * and only when the API key is allowed to auto-approve actions.
+   * An API-key run resumes on the server after a decision. Do not send
+   * `decided_tool_approvals`.
+   */
+  tool_approval?: ToolApprovalMode;
 }
 
 export interface HiveAgentSources {
@@ -106,7 +171,13 @@ export interface InvokeWorkflowResponse {
 export interface InvokeAgentResponse {
   request_id?: string;
   response?: string;
-  thread_id?: string;
+  thread_id?: string | null;
+  status?: 'completed' | 'awaiting_approval';
+  run_id?: string;
+  pending_tool_approvals?: PendingToolApproval[];
+  denied_tool_calls?: DeniedToolCall[];
+  tool_approval?: ToolApprovalMode;
+  auto_approved_tool_calls?: AutoApprovedToolCall[];
   model?: string;
   usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number };
   tool_calls?: Array<{ tool_name?: string; tool_input?: string; observation?: string }>;
@@ -234,6 +305,24 @@ export class FetchHive {
 
   listThreadDelegations(threadId: string): Promise<unknown> {
     return this.get(`/agent/threads/${threadId}/delegations`);
+  }
+
+  /** List tool-action approvals for the API key's workspace. `status` defaults to pending on the server. */
+  listToolActionApprovals(workspaceId: string, params: ListToolActionApprovalsParams = {}): Promise<unknown> {
+    return this.get(withApprovalQuery(`/public/workspaces/${workspaceId}/tool_action_approvals`, params));
+  }
+
+  /** Fetch one tool-action approval. */
+  getToolActionApproval(workspaceId: string, id: string): Promise<unknown> {
+    return this.get(`/public/workspaces/${workspaceId}/tool_action_approvals/${id}`);
+  }
+
+  /**
+   * Decide a tool-action approval. `allow_once` or `deny`.
+   * An API-key run resumes on the server after this call.
+   */
+  decideToolActionApproval(workspaceId: string, id: string, decision: ToolApprovalDecision): Promise<unknown> {
+    return this.post(`/public/workspaces/${workspaceId}/tool_action_approvals/${id}/decide`, { decision });
   }
 
   // ── Hive Agent ──────────────────────────────────────────────────────────────

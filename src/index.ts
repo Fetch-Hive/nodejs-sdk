@@ -38,6 +38,12 @@ export type {
   HiveAgentSources,
   InvokeHiveAgentRequest,
   InvokeHiveAgentResponse,
+  ToolApprovalMode,
+  ToolApprovalDecision,
+  ListToolActionApprovalsParams,
+  PendingToolApproval,
+  DeniedToolCall,
+  AutoApprovedToolCall,
 } from './client.js';
 
 export { parseSse, collectSse } from './streaming.js';

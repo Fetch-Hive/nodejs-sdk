@@ -98,6 +98,27 @@ for await (const chunk of client.invokeAgentStream({
 }
 ```
 
+## Tool approvals
+
+`tool_approval` is optional on `invokeAgent`, `invokeAgentStream`, and `invokeWorkflow`. Omit it, or send `"policy"`, to follow saved rules. `"auto_approve"` applies to this call only, and only when the API key is allowed to auto-approve actions.
+
+When a response has `status: "awaiting_approval"`, decide with the API key. The run resumes on the server. Do not send `decided_tool_approvals`.
+
+```typescript
+await client.decideToolActionApproval('WORKSPACE_ID', 'APPROVAL_ID', 'allow_once');
+
+const pending = await client.listToolActionApprovals('WORKSPACE_ID', { status: 'pending' });
+const one = await client.getToolActionApproval('WORKSPACE_ID', 'APPROVAL_ID');
+
+const reply = await client.invokeAgent({
+  agent: 'my-agent',
+  message: 'Send the follow-up',
+  tool_approval: 'auto_approve',
+});
+```
+
+`decision` is `"allow_once"` or `"deny"`. `always_allow` is only available in the dashboard.
+
 ## Multimodal (image) inputs
 
 ```typescript
@@ -138,7 +159,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.4.0
+0.4.1
 
 ## License
 

@@ -1,7 +1,7 @@
 /**
  * Contract test suite for the FetchHive Node.js client.
  *
- * Covers the SDK test matrix (C1-C5, A1-A2, P1-P3, W1-W3, AG1-AG3, HA1-HA4, KB1, KBI1, PA1, PAC1, R1, S1-S2, E1-E2).
+ * Covers the SDK test matrix (C1-C5, A1-A2, P1-P3, W1-W3, AG1-AG3, HA1-HA4, KB1, KBI1, PA1, PAC1, R1, TA1-TA2, S1-S2, E1-E2).
  * Tests stub global `fetch` — no real network calls are made.
  */
 import { FetchHive } from '../src/client.js';
@@ -256,6 +256,7 @@ describe('AG: invokeAgent', () => {
     expect(body.user).toBeUndefined();
     expect(body.messages).toBeUndefined();
     expect(body.attachments).toBeUndefined();
+    expect(body.tool_approval).toBeUndefined();
   });
 
   test('AG3 — optional fields included when provided', async () => {
@@ -468,6 +469,51 @@ describe('KB/PA/R: public resource helpers', () => {
     expect(opts.method).toBe('GET');
     expect(result).toEqual({ delegations: [{ id: 'del_1' }] });
   });
+
+  test('TA1 — tool action approval helpers hit list, show, and decide', async () => {
+    const mockFetch = makeMockFetch({ ok: true });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    await client.listToolActionApprovals('ws_1', { status: 'pending', agent_id: 'agt_1', limit: 10 });
+    await client.getToolActionApproval('ws_1', 'appr_1');
+    await client.decideToolActionApproval('ws_1', 'appr_1', 'allow_once');
+
+    const [listUrl, listOpts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(listUrl).toContain('/public/workspaces/ws_1/tool_action_approvals?');
+    expect(listUrl).toContain('status=pending');
+    expect(listUrl).toContain('agent_id=agt_1');
+    expect(listUrl).toContain('limit=10');
+    expect(listOpts.method).toBe('GET');
+
+    const [showUrl, showOpts] = mockFetch.mock.calls[1] as [string, RequestInit];
+    expect(showUrl).toContain('/tool_action_approvals/appr_1');
+    expect(showUrl).not.toContain('/decide');
+    expect(showOpts.method).toBe('GET');
+
+    const [decideUrl, decideOpts] = mockFetch.mock.calls[2] as [string, RequestInit];
+    expect(decideUrl).toContain('/tool_action_approvals/appr_1/decide');
+    expect(decideOpts.method).toBe('POST');
+    expect(JSON.parse(decideOpts.body as string)).toEqual({ decision: 'allow_once' });
+  });
+
+  test('TA2 — tool_approval is included only when provided', async () => {
+    const mockFetch = makeMockFetch({ response: 'ok' });
+    global.fetch = mockFetch as unknown as typeof fetch;
+    const client = new FetchHive({ apiKey: 'k' });
+
+    await client.invokeAgent({ agent: 'a', message: 'm' });
+    await client.invokeWorkflow({ deployment: 'd' });
+    await client.invokeAgent({ agent: 'a', message: 'm', tool_approval: 'auto_approve' });
+    await client.invokeWorkflow({ deployment: 'd', tool_approval: 'policy' });
+
+    const body = (index: number) =>
+      JSON.parse((mockFetch.mock.calls[index] as [string, RequestInit])[1].body as string);
+    expect(body(0).tool_approval).toBeUndefined();
+    expect(body(1).tool_approval).toBeUndefined();
+    expect(body(2).tool_approval).toBe('auto_approve');
+    expect(body(3).tool_approval).toBe('policy');
+  });
 });
 
 // ── S: Streaming ──────────────────────────────────────────────────────────────
@@ -499,7 +545,12 @@ describe('S: Streaming endpoints', () => {
 
     const client = new FetchHive({ apiKey: 'k' });
     const chunks: unknown[] = [];
-    for await (const chunk of client.invokeAgentStream({ agent: 'a', message: 'm', metadata: { plan: 'enterprise' } })) {
+    for await (const chunk of client.invokeAgentStream({
+      agent: 'a',
+      message: 'm',
+      metadata: { plan: 'enterprise' },
+      tool_approval: 'auto_approve',
+    })) {
       chunks.push(chunk);
     }
 
@@ -507,6 +558,7 @@ describe('S: Streaming endpoints', () => {
     const body = JSON.parse(opts.body as string);
     expect(body.streaming).toBe(true);
     expect(body.metadata).toEqual({ plan: 'enterprise' });
+    expect(body.tool_approval).toBe('auto_approve');
     expect(chunks).toHaveLength(1);
     expect((chunks[0] as { response: string }).response).toBe('Hi');
   });

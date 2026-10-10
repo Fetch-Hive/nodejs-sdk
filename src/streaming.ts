@@ -22,6 +22,7 @@ export interface SseChunk {
    * - "response"  — text output chunk (prompt and agent streams)
    * - "tool"      — tool invocation and result (agent stream only)
    * - "usage"     — final token usage; signals end of meaningful stream content
+   * - "tool_approval" — a paused tool call waiting for a decision (agent stream only)
    * - "summary"   — conversation history summarization (agent stream only)
    * - "error"     — server-side streaming error
    */
@@ -49,6 +50,22 @@ export interface SseChunk {
   observation?: string;
   /** Reason the stream ended. Present on "usage" events (e.g. "completed"). */
   stop_reason?: string;
+  /** Effective tool-approval mode. Present on the final "usage" event. */
+  tool_approval?: 'policy' | 'auto_approve';
+  /** Present on "tool_approval" events. The paused call. */
+  approval?: Record<string, unknown>;
+  /** Present on the final "usage" event. "completed" or "awaiting_approval". */
+  status?: string;
+  /** Present on the final "usage" event. Public id for this run. */
+  run_id?: string;
+  /** Present on the final "usage" event. The caller thread id, or null. */
+  thread_id?: string | null;
+  /** Present on the final "usage" event when status is "awaiting_approval". */
+  pending_tool_approvals?: Array<Record<string, unknown>>;
+  /** Present on the final "usage" event when this turn denied one or more tools. */
+  denied_tool_calls?: Array<Record<string, unknown>>;
+  /** Present on the final "usage" event when an override let actions run. */
+  auto_approved_tool_calls?: Array<{ summary?: string; tool_name?: string }>;
   /** Compressed summary of the prior conversation. Present for "summary" events. */
   summary_text?: string;
   /** Token count before summarization. Present for "summary" events. */
