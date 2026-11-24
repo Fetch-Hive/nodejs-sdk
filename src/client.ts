@@ -116,18 +116,47 @@ export interface InvokeWorkflowRequest {
 /**
  * Start a pipeline run. Pipelines can wait for a person at a checkpoint, so a
  * run is always asynchronous: the call returns at once and the result is sent
- * to `callback_url`, signed with the pipeline's webhook secret. Name a
- * deployment (and optionally a variant), or a pipeline id to run its default
- * variant.
+ * to `callback_url`, signed with the pipeline's webhook secret, or you follow it
+ * with getPipelineRun when `poll` is true. Name a deployment (and optionally a
+ * variant), or a pipeline id to run its default variant.
  */
 export interface InvokePipelineRequest {
   deployment?: string;
   variant?: string;
   pipeline?: string;
   inputs?: Record<string, unknown>;
-  callback_url: string;
+  /** Where the result is sent. Needed when a checkpoint would stop for a person, unless `poll` is true. */
+  callback_url?: string;
+  /** Follow the run with getPipelineRun and getPipelineCheckpoint instead of a callback. */
+  poll?: boolean;
+  /** false: checkpoints send no email or Telegram message, because your app shows them. */
+  notify_checkpoints?: boolean;
   /** This run's spending cap in USD; without it the pipeline's own cap applies. */
   max_spend_usd?: number;
+}
+
+export interface PipelineDefinitionOptions {
+  /** The deployment variant to describe; without it, the default one. */
+  variant?: string;
+}
+
+export interface ListPipelineRunsParams {
+  pipeline?: string;
+  deployment?: string;
+  /** One status or several, comma separated: queued, running, waiting, completed, failed, cancelled. */
+  status?: string;
+  page?: number;
+  /** Up to 50; 20 by default. */
+  per_page?: number;
+}
+
+function withQuery(path: string, entries: Array<[string, string | number | undefined]>): string {
+  const query = new URLSearchParams();
+  for (const [key, value] of entries) {
+    if (value !== undefined && value !== '') query.set(key, String(value));
+  }
+  const qs = query.toString();
+  return qs ? `${path}?${qs}` : path;
 }
 
 export interface AnswerPipelineCheckpointRequest {
@@ -311,8 +340,41 @@ export class FetchHive {
 
   /** Start a pipeline run (always asynchronous). Returns `{ pipeline_run }`. */
   invokePipeline(params: InvokePipelineRequest): Promise<{ pipeline_run: Record<string, unknown> }> {
-    const { callback_url, ...rest } = params;
-    return this.post('/pipeline/invoke', { ...rest, async: { enabled: true, callback_url } });
+    const { callback_url, poll, ...rest } = params;
+    const asyncConfig: Record<string, unknown> = { enabled: true, callback_url };
+    if (poll) asyncConfig.poll = true;
+    return this.post('/pipeline/invoke', { ...rest, async: asyncConfig });
+  }
+
+  /**
+   * Set a pipeline template up in this API key's workspace and deploy it. Safe to call before every run: when
+   * the workspace has it already, the same pipeline and deployment come back with `installed: false`.
+   */
+  installPipelineTemplate(templateId: string, params: { deployment?: string } = {}): Promise<unknown> {
+    return this.post(`/pipeline/templates/${encodeURIComponent(templateId)}/install`, params);
+  }
+
+  /** A deployed pipeline's start inputs, stages, checkpoints and estimated cost per run. */
+  getPipeline(pipelineId: string, options: PipelineDefinitionOptions = {}): Promise<unknown> {
+    return this.get(withQuery(`/pipeline/pipelines/${encodeURIComponent(pipelineId)}`, [['variant', options.variant]]));
+  }
+
+  /** The same as getPipeline, by deployment key. */
+  getPipelineDeployment(deployment: string, options: PipelineDefinitionOptions = {}): Promise<unknown> {
+    return this.get(withQuery(`/pipeline/deployments/${encodeURIComponent(deployment)}`, [['variant', options.variant]]));
+  }
+
+  /** Earlier pipeline runs, newest first, with their start inputs. */
+  listPipelineRuns(params: ListPipelineRunsParams = {}): Promise<unknown> {
+    return this.get(
+      withQuery('/pipeline/runs', [
+        ['pipeline', params.pipeline],
+        ['deployment', params.deployment],
+        ['status', params.status],
+        ['page', params.page],
+        ['per_page', params.per_page],
+      ]),
+    );
   }
 
   /** A pipeline run: status, each step, cost and the output once it has finished. */

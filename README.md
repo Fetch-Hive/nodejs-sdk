@@ -87,6 +87,20 @@ const checkpoint = await client.getPipelineCheckpoint(pipeline_run.id as string)
 await client.answerPipelineCheckpoint(pipeline_run.id as string, { answer: { approved: true } });
 ```
 
+Building an app on a pipeline template? Set it up in your workspace, read its start inputs and estimated cost, and follow runs by polling, with checkpoint emails off because your app shows them:
+
+```ts
+const setup = await client.installPipelineTemplate('TEMPLATE_ID'); // same pipeline back on later calls
+const definition = await client.getPipelineDeployment('seo-article');
+const { pipeline_run } = await client.invokePipeline({
+  deployment: 'seo-article',
+  inputs: { keyword: 'running shoes' },
+  poll: true,
+  notify_checkpoints: false,
+});
+const history = await client.listPipelineRuns({ deployment: 'seo-article', per_page: 10 });
+```
+
 ## Invoke an agent
 
 ```typescript
@@ -177,7 +191,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.5.0
+0.6.0
 
 ## License
 

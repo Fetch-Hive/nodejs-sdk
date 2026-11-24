@@ -270,6 +270,43 @@ describe('PL: pipelines', () => {
     ]);
     expect(JSON.parse(calls[2][1].body as string)).toEqual({ answer: { approved: true }, request_id: 'cp_1' });
   });
+
+  test('PL3 — a polled run without a callback, checkpoint messages off', async () => {
+    const mockFetch = makeMockFetch({ pipeline_run: { id: 'run_2' } });
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.invokePipeline({ deployment: 'seo-article', inputs: { keyword: 'shoes' }, poll: true, notify_checkpoints: false });
+
+    const [, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(JSON.parse(opts.body as string)).toEqual({
+      deployment: 'seo-article',
+      inputs: { keyword: 'shoes' },
+      notify_checkpoints: false,
+      async: { enabled: true, poll: true },
+    });
+  });
+
+  test('PL4 — template install, definition and run list paths', async () => {
+    const mockFetch = makeMockFetch({});
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.installPipelineTemplate('tpl_1');
+    await client.getPipeline('pipe_1');
+    await client.getPipelineDeployment('seo-article', { variant: 'staging' });
+    await client.listPipelineRuns({ deployment: 'seo-article', status: 'completed', per_page: 10 });
+    await client.listPipelineRuns();
+
+    const calls = mockFetch.mock.calls as Array<[string, RequestInit]>;
+    expect(calls.map(([url, opts]) => `${opts.method} ${url.replace(/^.*\/v1/, '')}`)).toEqual([
+      'POST /pipeline/templates/tpl_1/install',
+      'GET /pipeline/pipelines/pipe_1',
+      'GET /pipeline/deployments/seo-article?variant=staging',
+      'GET /pipeline/runs?deployment=seo-article&status=completed&per_page=10',
+      'GET /pipeline/runs',
+    ]);
+  });
 });
 
 // ── AG: Agent ─────────────────────────────────────────────────────────────────
