@@ -26,8 +26,10 @@
  * ```
  */
 
-export { FetchHive } from './client.js';
+export { FetchHive, FetchHiveError } from './client.js';
 export type {
+  PipelineRevisionChanges,
+  CreatePipelineRevisionRequest,
   FetchHiveOptions,
   InvokePromptRequest,
   InvokePromptResponse,

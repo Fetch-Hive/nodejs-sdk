@@ -4,7 +4,7 @@
  * Covers the SDK test matrix (C1-C5, A1-A2, P1-P3, W1-W3, AG1-AG3, HA1-HA4, KB1, KBI1, PA1, PAC1, R1, TA1-TA2, S1-S2, E1-E2).
  * Tests stub global `fetch` — no real network calls are made.
  */
-import { FetchHive } from '../src/client.js';
+import { FetchHive, FetchHiveError } from '../src/client.js';
 import { parseSse } from '../src/streaming.js';
 
 // ── Mock helpers ──────────────────────────────────────────────────────────────
@@ -269,6 +269,36 @@ describe('PL: pipelines', () => {
       'POST /pipeline/runs/run_1/cancel',
     ]);
     expect(JSON.parse(calls[2][1].body as string)).toEqual({ answer: { approved: true }, request_id: 'cp_1' });
+  });
+
+  test('PL4 — re-run plan and confirmed re-run', async () => {
+    const mockFetch = makeMockFetch({});
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.planPipelineRevision('run_1', { rerun: ['write'] });
+    await client.createPipelineRevision('run_1', { changes: { rerun: ['write'] }, confirmed: true });
+
+    const calls = mockFetch.mock.calls as Array<[string, RequestInit]>;
+    expect(calls.map(([url, opts]) => `${opts.method} ${url.replace(/^.*\/v1/, '')}`)).toEqual([
+      'POST /pipeline/runs/run_1/revisions/plan',
+      'POST /pipeline/runs/run_1/revisions',
+    ]);
+    expect(JSON.parse(calls[0][1].body as string)).toEqual({ changes: { rerun: ['write'] } });
+    expect(JSON.parse(calls[1][1].body as string)).toEqual({ changes: { rerun: ['write'] }, confirmed: true });
+  });
+
+  test('PL5 — API errors carry the status and the parsed body', async () => {
+    global.fetch = (async () =>
+      new Response(JSON.stringify({ error_code: 'spend_cap_exceeded', message: 'Cap reached' }), { status: 402 })) as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    const error = await client.getPipelineRun('run_1').catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(FetchHiveError);
+    expect(error).toBeInstanceOf(Error);
+    expect((error as FetchHiveError).status).toBe(402);
+    expect((error as FetchHiveError).body).toEqual({ error_code: 'spend_cap_exceeded', message: 'Cap reached' });
+    expect((error as FetchHiveError).message).toMatch(/^FetchHive API error 402: /);
   });
 
   test('PL3 — a polled run without a callback, checkpoint messages off', async () => {

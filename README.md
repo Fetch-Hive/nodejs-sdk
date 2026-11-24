@@ -101,6 +101,15 @@ const { pipeline_run } = await client.invokePipeline({
 const history = await client.listPipelineRuns({ deployment: 'seo-article', per_page: 10 });
 ```
 
+Re-run from a changed answer or a failed stage: plan first (shows what runs again and its cost), then confirm:
+
+```ts
+const { plan } = await client.planPipelineRevision(runId, { rerun: ['write'] });
+await client.createPipelineRevision(runId, { changes: { rerun: ['write'] }, confirmed: true });
+```
+
+API errors are `FetchHiveError`, with `status` and the parsed JSON `body` (`error_code`, `message`, `details`).
+
 ## Invoke an agent
 
 ```typescript
@@ -191,7 +200,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.6.0
+0.6.1
 
 ## License
 

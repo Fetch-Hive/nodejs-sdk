@@ -167,6 +167,47 @@ export interface AnswerPipelineCheckpointRequest {
   node_key?: string;
 }
 
+/** What to change for a re-run. Only stages affected by a change run again; the rest is reused. */
+export interface PipelineRevisionChanges {
+  /** New start input values. */
+  start_inputs?: Record<string, unknown>;
+  /** New checkpoint answers, by checkpoint node key, in that checkpoint's answer shape. */
+  answers?: Record<string, Record<string, unknown>>;
+  /** Stage keys to run again even when nothing they read changed (for example a failed stage). */
+  rerun?: string[];
+  [key: string]: unknown;
+}
+
+export interface CreatePipelineRevisionRequest {
+  changes: PipelineRevisionChanges;
+  /** true: start the re-run. Without it, a re-run that would run stages returns `needs_confirmation` and the plan. */
+  confirmed?: boolean;
+  callback_url?: string;
+  max_spend_usd?: number;
+}
+
+/**
+ * A non-2xx answer from the Fetch Hive API. `body` is the parsed JSON error
+ * (`{ error, message, error_code, errors?, details? }`) when the API sent JSON.
+ */
+export class FetchHiveError extends Error {
+  readonly status: number;
+  readonly body: unknown;
+
+  constructor(status: number, text: string) {
+    super(`FetchHive API error ${status}: ${text}`);
+    this.name = 'FetchHiveError';
+    this.status = status;
+    let body: unknown = text;
+    try {
+      body = text ? JSON.parse(text) : null;
+    } catch {
+      // not JSON; keep the text
+    }
+    this.body = body;
+  }
+}
+
 export interface InvokeAgentRequest {
   message: string;
   agent: string;
@@ -284,7 +325,7 @@ export class FetchHive {
     });
     if (!res.ok) {
       const text = await res.text().catch(() => '');
-      throw new Error(`FetchHive API error ${res.status}: ${text}`);
+      throw new FetchHiveError(res.status, text);
     }
     if (res.status === 204) return undefined as T;
     const text = await res.text();
@@ -394,6 +435,16 @@ export class FetchHive {
 
   cancelPipelineRun(runId: string): Promise<unknown> {
     return this.post(`/pipeline/runs/${encodeURIComponent(runId)}/cancel`, {});
+  }
+
+  /** What a re-run with these changes would reuse and run, and its cost. Starts nothing. Returns `{ plan }`. */
+  planPipelineRevision(runId: string, changes: PipelineRevisionChanges): Promise<unknown> {
+    return this.post(`/pipeline/runs/${encodeURIComponent(runId)}/revisions/plan`, { changes });
+  }
+
+  /** Re-run a finished run with changes. Send `confirmed: true` once the person has agreed to the plan's cost. */
+  createPipelineRevision(runId: string, params: CreatePipelineRevisionRequest): Promise<unknown> {
+    return this.post(`/pipeline/runs/${encodeURIComponent(runId)}/revisions`, params);
   }
 
   // ── Agent ───────────────────────────────────────────────────────────────────
