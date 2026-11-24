@@ -19,6 +19,9 @@ Name | Type
 `async` | [AgentInvokeAsyncConfig](AgentInvokeAsyncConfig.md)
 `toolApproval` | string
 `decidedToolApprovals` | [Array&lt;InvokeAgentRequestDecidedToolApprovalsInner&gt;](InvokeAgentRequestDecidedToolApprovalsInner.md)
+`responseFormat` | [InvokeAgentRequestResponseFormat](InvokeAgentRequestResponseFormat.md)
+`isJsonSchemaResponseFormat` | boolean
+`jsonSchema` | { [key: string]: any; }
 
 ## Example
 
@@ -40,6 +43,9 @@ const example = {
   "async": null,
   "toolApproval": null,
   "decidedToolApprovals": null,
+  "responseFormat": null,
+  "isJsonSchemaResponseFormat": null,
+  "jsonSchema": null,
 } satisfies InvokeAgentRequest
 
 console.log(example)

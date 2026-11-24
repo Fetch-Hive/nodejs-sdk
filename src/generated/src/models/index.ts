@@ -43,6 +43,8 @@ export * from './HiveAgentAsyncConfig';
 export * from './HiveAgentSources';
 export * from './InvokeAgentRequest';
 export * from './InvokeAgentRequestDecidedToolApprovalsInner';
+export * from './InvokeAgentRequestResponseFormat';
+export * from './InvokeAgentRequestResponseFormatJsonSchema';
 export * from './InvokeAgentResponse';
 export * from './InvokeAgentResponseAutoApprovedToolCallsInner';
 export * from './InvokeHiveAgentRequest';

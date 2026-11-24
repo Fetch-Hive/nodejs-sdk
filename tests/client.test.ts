@@ -225,6 +225,53 @@ describe('W: invokeWorkflow', () => {
   });
 });
 
+// ── PL: Pipeline ──────────────────────────────────────────────────────────────
+
+describe('PL: pipelines', () => {
+  test('PL1 — invokePipeline is always async with the callback', async () => {
+    const mockFetch = makeMockFetch({ pipeline_run: { id: 'run_1', status: 'queued' } });
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    const result = await client.invokePipeline({
+      deployment: 'seo-article',
+      variant: 'staging',
+      inputs: { keyword: 'shoes' },
+      callback_url: 'https://example.com/cb',
+    });
+
+    const [url, opts] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/pipeline/invoke');
+    expect(JSON.parse(opts.body as string)).toEqual({
+      deployment: 'seo-article',
+      variant: 'staging',
+      inputs: { keyword: 'shoes' },
+      async: { enabled: true, callback_url: 'https://example.com/cb' },
+    });
+    expect(result.pipeline_run.id).toBe('run_1');
+  });
+
+  test('PL2 — run, checkpoint, answer and cancel paths', async () => {
+    const mockFetch = makeMockFetch({});
+    global.fetch = mockFetch as unknown as typeof fetch;
+
+    const client = new FetchHive({ apiKey: 'k' });
+    await client.getPipelineRun('run_1');
+    await client.getPipelineCheckpoint('run_1');
+    await client.answerPipelineCheckpoint('run_1', { answer: { approved: true }, request_id: 'cp_1' });
+    await client.cancelPipelineRun('run_1');
+
+    const calls = mockFetch.mock.calls as Array<[string, RequestInit]>;
+    expect(calls.map(([url, opts]) => `${opts.method} ${url.replace(/^.*\/v1/, '')}`)).toEqual([
+      'GET /pipeline/runs/run_1',
+      'GET /pipeline/runs/run_1/checkpoint',
+      'POST /pipeline/runs/run_1/checkpoint/answer',
+      'POST /pipeline/runs/run_1/cancel',
+    ]);
+    expect(JSON.parse(calls[2][1].body as string)).toEqual({ answer: { approved: true }, request_id: 'cp_1' });
+  });
+});
+
 // ── AG: Agent ─────────────────────────────────────────────────────────────────
 
 describe('AG: invokeAgent', () => {

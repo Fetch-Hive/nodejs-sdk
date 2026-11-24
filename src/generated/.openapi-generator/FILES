@@ -50,6 +50,8 @@ docs/HiveAgentSources.md
 docs/HiveAgentsApi.md
 docs/InvokeAgentRequest.md
 docs/InvokeAgentRequestDecidedToolApprovalsInner.md
+docs/InvokeAgentRequestResponseFormat.md
+docs/InvokeAgentRequestResponseFormatJsonSchema.md
 docs/InvokeAgentResponse.md
 docs/InvokeAgentResponseAutoApprovedToolCallsInner.md
 docs/InvokeHiveAgentRequest.md
@@ -179,6 +181,8 @@ src/models/HiveAgentAsyncConfig.ts
 src/models/HiveAgentSources.ts
 src/models/InvokeAgentRequest.ts
 src/models/InvokeAgentRequestDecidedToolApprovalsInner.ts
+src/models/InvokeAgentRequestResponseFormat.ts
+src/models/InvokeAgentRequestResponseFormatJsonSchema.ts
 src/models/InvokeAgentResponse.ts
 src/models/InvokeAgentResponseAutoApprovedToolCallsInner.ts
 src/models/InvokeHiveAgentRequest.ts

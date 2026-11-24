@@ -113,6 +113,31 @@ export interface InvokeWorkflowRequest {
   tool_approval?: ToolApprovalMode;
 }
 
+/**
+ * Start a pipeline run. Pipelines can wait for a person at a checkpoint, so a
+ * run is always asynchronous: the call returns at once and the result is sent
+ * to `callback_url`, signed with the pipeline's webhook secret. Name a
+ * deployment (and optionally a variant), or a pipeline id to run its default
+ * variant.
+ */
+export interface InvokePipelineRequest {
+  deployment?: string;
+  variant?: string;
+  pipeline?: string;
+  inputs?: Record<string, unknown>;
+  callback_url: string;
+  /** This run's spending cap in USD; without it the pipeline's own cap applies. */
+  max_spend_usd?: number;
+}
+
+export interface AnswerPipelineCheckpointRequest {
+  /** The answer in the checkpoint's answer shape (see getPipelineCheckpoint). */
+  answer: Record<string, unknown>;
+  /** The checkpoint you were answering (its `id`), so a late retry never lands on a later checkpoint. */
+  request_id?: string;
+  node_key?: string;
+}
+
 export interface InvokeAgentRequest {
   message: string;
   agent: string;
@@ -280,6 +305,33 @@ export class FetchHive {
   /** Invoke a workflow deployment and return the full response (sync). */
   invokeWorkflow(params: InvokeWorkflowRequest): Promise<InvokeWorkflowResponse> {
     return this.post('/workflow/invoke', params);
+  }
+
+  // ── Pipeline ────────────────────────────────────────────────────────────────
+
+  /** Start a pipeline run (always asynchronous). Returns `{ pipeline_run }`. */
+  invokePipeline(params: InvokePipelineRequest): Promise<{ pipeline_run: Record<string, unknown> }> {
+    const { callback_url, ...rest } = params;
+    return this.post('/pipeline/invoke', { ...rest, async: { enabled: true, callback_url } });
+  }
+
+  /** A pipeline run: status, each step, cost and the output once it has finished. */
+  getPipelineRun(runId: string): Promise<unknown> {
+    return this.get(`/pipeline/runs/${encodeURIComponent(runId)}`);
+  }
+
+  /** What the run is waiting for at a checkpoint, and the answer shape to send. */
+  getPipelineCheckpoint(runId: string): Promise<unknown> {
+    return this.get(`/pipeline/runs/${encodeURIComponent(runId)}/checkpoint`);
+  }
+
+  /** Answer the checkpoint a run is waiting at. */
+  answerPipelineCheckpoint(runId: string, params: AnswerPipelineCheckpointRequest): Promise<unknown> {
+    return this.post(`/pipeline/runs/${encodeURIComponent(runId)}/checkpoint/answer`, params);
+  }
+
+  cancelPipelineRun(runId: string): Promise<unknown> {
+    return this.post(`/pipeline/runs/${encodeURIComponent(runId)}/cancel`, {});
   }
 
   // ── Agent ───────────────────────────────────────────────────────────────────

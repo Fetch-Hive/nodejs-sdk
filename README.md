@@ -69,6 +69,24 @@ const run = await client.invokeWorkflow({
 console.log('Queued:', run.run_id);
 ```
 
+## Run a pipeline
+
+A pipeline runs several workflows in a row and can stop at checkpoints for a person, so a run is always asynchronous: the call returns at once and the result is sent to your callback URL.
+
+```ts
+const { pipeline_run } = await client.invokePipeline({
+  deployment: 'seo-article',
+  variant: 'production',
+  inputs: { keyword: 'running shoes' },
+  callback_url: 'https://example.com/hooks/pipeline',
+});
+
+const run = await client.getPipelineRun(pipeline_run.id as string);
+// At a checkpoint: read what it asks, then send the person's answer.
+const checkpoint = await client.getPipelineCheckpoint(pipeline_run.id as string);
+await client.answerPipelineCheckpoint(pipeline_run.id as string, { answer: { approved: true } });
+```
+
 ## Invoke an agent
 
 ```typescript
@@ -159,7 +177,7 @@ export FETCH_HIVE_API_KEY=fhk_...
 
 ## Version
 
-0.4.1
+0.5.0
 
 ## License
 

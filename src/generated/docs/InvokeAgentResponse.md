@@ -9,6 +9,7 @@ Name | Type
 ------------ | -------------
 `requestId` | string
 `response` | string
+`outputJson` | { [key: string]: any; }
 `threadId` | string
 `status` | string
 `runId` | string
@@ -31,6 +32,7 @@ import type { InvokeAgentResponse } from '@fetch-hive/sdk'
 const example = {
   "requestId": null,
   "response": null,
+  "outputJson": null,
   "threadId": null,
   "status": null,
   "runId": null,
